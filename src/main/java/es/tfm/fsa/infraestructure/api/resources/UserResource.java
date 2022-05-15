@@ -1,13 +1,16 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
+import es.tfm.fsa.configuration.JwtService;
 import es.tfm.fsa.domain.model.Role;
 import es.tfm.fsa.domain.model.User;
 import es.tfm.fsa.domain.services.UserService;
+import es.tfm.fsa.infraestructure.api.dtos.TokenDto;
 import es.tfm.fsa.infraestructure.api.dtos.UserDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class UserResource {
     public static final String USERS = "/users";
     public static final String BASIC_USERS = "/basic-users";
+    public static final String TOKEN = "/token";
 
     private UserService userService;
 
@@ -30,6 +34,13 @@ public class UserResource {
         this.userService = userService;
     }
 
+    @SecurityRequirement(name = "basicAuth")
+    @PreAuthorize("authenticated")
+    @PostMapping(value = TOKEN)
+    public Optional<TokenDto> login(@AuthenticationPrincipal org.springframework.security.core.userdetails.User activeUser) {
+        return userService.login(activeUser.getUsername())
+                .map(TokenDto::new);
+    }
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping

@@ -1,5 +1,6 @@
 package es.tfm.fsa.domain.services;
 
+import es.tfm.fsa.configuration.JwtService;
 import es.tfm.fsa.domain.persistence.UserPersistence;
 import es.tfm.fsa.domain.model.User;
 import es.tfm.fsa.domain.model.Role;
@@ -13,10 +14,17 @@ import java.util.Optional;
 public class UserService {
 
     private UserPersistence userPersistence;
+    private JwtService jwtService;
 
     @Autowired
-    public UserService(UserPersistence userPersistence) {
+    public UserService(UserPersistence userPersistence, JwtService jwtService) {
         this.userPersistence = userPersistence;
+        this.jwtService =jwtService;
+    }
+
+    public Optional<String> login(String username) {
+        return this.userPersistence.readByUsername(username)
+                .map(user -> jwtService.createToken(user.getUsername(), user.getRole().name()));
     }
 
     public Optional<User> createUser(User user, Role roleClaim) {
