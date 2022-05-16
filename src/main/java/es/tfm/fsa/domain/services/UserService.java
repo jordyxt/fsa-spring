@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     public UserService(UserPersistence userPersistence, JwtService jwtService) {
         this.userPersistence = userPersistence;
-        this.jwtService =jwtService;
+        this.jwtService = jwtService;
     }
 
     public Optional<String> login(String username) {
