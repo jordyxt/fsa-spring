@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class GenreService {
@@ -22,5 +23,9 @@ public class GenreService {
 
     public Optional<Genre> read(String name) {
         return this.genrePersistence.readByName(name);
+    }
+
+    public Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description) {
+        return this.genrePersistence.findByNameAndDescriptionContainingNullSafe(name, description);
     }
 }
