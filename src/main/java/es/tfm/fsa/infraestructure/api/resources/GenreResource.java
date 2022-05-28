@@ -4,9 +4,7 @@ import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.services.GenreService;
 import es.tfm.fsa.infraestructure.api.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -29,10 +27,10 @@ public class GenreResource {
         return this.genreService.create(genre);
     }
     @GetMapping(SEARCH)
-    public Stream<Genre> findByNameAndDescriptionNullSafe(
+    public Stream<Genre> findByNameAndDescriptionContainingNullSafe(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description) {
-        return this.genreService.findByNameAndDescriptionNullSafe(name, description)
+        return this.genreService.findByNameAndDescriptionContainingNullSafe(name, description)
                 .map(Genre::ofNameDescription);
     }
 }

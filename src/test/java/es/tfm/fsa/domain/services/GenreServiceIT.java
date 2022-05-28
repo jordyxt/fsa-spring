@@ -22,4 +22,13 @@ public class GenreServiceIT {
         assertTrue(genre.isPresent());
         assertThat(genre.get().getName(), is("testGenreS1"));
     }
+    @Test
+    void testFindByNameAndDescription() {
+        this.genreService.findByNameAndDescriptionContainingNullSafe(null,"description")
+                .map(genre -> {
+                    assertThat(genre.getDescription(), is("description"));
+                    return true;
+                });
+
+    }
 }

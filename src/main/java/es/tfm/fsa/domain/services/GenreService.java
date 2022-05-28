@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 @Service
@@ -26,7 +25,7 @@ public class GenreService {
         return this.genrePersistence.readByName(name);
     }
 
-    public Stream<Genre> findByNameAndDescriptionNullSafe(String name, String description) {
-        return this.genrePersistence.findByNameAndDescriptionNullSafe(name, description);
+    public Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description) {
+        return this.genrePersistence.findByNameAndDescriptionContainingNullSafe(name, description);
     }
 }
