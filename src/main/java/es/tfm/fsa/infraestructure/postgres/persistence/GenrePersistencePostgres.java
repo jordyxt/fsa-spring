@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.stream.Stream;
+
 @Repository
 public class GenrePersistencePostgres implements GenrePersistence {
     private final GenreDao genreDao;
@@ -31,6 +33,11 @@ public class GenrePersistencePostgres implements GenrePersistence {
             throw new NotFoundException("Non existent genre name: " + name);
         }
         return  Optional.of(this.genreDao.findByName(name).get().toGenre());
+    }
+
+    @Override
+    public Stream<Genre> findByNameAndDescriptionNullSafe(String name, String description) {
+        return this.genreDao.findBNameAndGroupAndDescriptionNullSafe(name, description).map(GenreEntity::toGenre);
     }
 
     private void assertNameNotExist(String name) {

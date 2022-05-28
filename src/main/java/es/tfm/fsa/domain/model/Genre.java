@@ -18,4 +18,11 @@ public class Genre {
     private String name;
     @NotBlank
     private String description;
+
+    public static Genre ofNameDescription(Genre genre) {
+        return Genre.builder()
+                .name(genre.getName())
+                .description(genre.getDescription())
+                .build();
+    }
 }
