@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestConfig
@@ -21,9 +20,9 @@ public class UserPersistencePostgresIT {
 
     @Test
     void testCreate() {
-        this.userPersistencePostgres.create(User.builder().username("tester2").email("e2").role(Role.BASIC).build(), Role.ADMIN);
-        Optional<User> user = this.userPersistencePostgres.readByUsername("tester2");
+        this.userPersistencePostgres.create(User.builder().username("testerP1").email("e1").role(Role.BASIC).build(), Role.ADMIN);
+        Optional<User> user = this.userPersistencePostgres.readByUsername("testerP1");
         assertTrue(user.isPresent());
-        assertThat(user.get().getUsername(), is("tester2"));
+        assertThat(user.get().getUsername(), is("testerP1"));
     }
 }
