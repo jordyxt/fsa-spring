@@ -26,7 +26,7 @@ public class GenreEntity {
         BeanUtils.copyProperties(genre, this);
     }
 
-    public Genre toUser() {
+    public Genre toGenre() {
         Genre genre = new Genre();
         BeanUtils.copyProperties(this, genre);
         return genre;

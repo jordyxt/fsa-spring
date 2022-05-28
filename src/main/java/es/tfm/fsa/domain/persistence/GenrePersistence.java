@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface GenrePersistence {
     Optional<Genre> create(Genre genre);
+
+    Optional<Genre> readByName(String name);
 }

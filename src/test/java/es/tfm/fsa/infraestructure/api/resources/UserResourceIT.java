@@ -1,5 +1,6 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
+import es.tfm.fsa.infraestructure.api.RestClientTestService;
 import es.tfm.fsa.infraestructure.api.dtos.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserResourceIT {
         this.webTestClient.post().uri(uriBuilder -> uriBuilder
                 .path(USERS + BASIC_USERS)
                 .build()).
-                body(Mono.just(UserDto.builder().username("tester2").email("e1").password("12345").build()), UserDto.class).
+                body(Mono.just(UserDto.builder().username("testerR1").email("e1").password("12345").build()), UserDto.class).
                 exchange().expectStatus().isOk();
     }
     @Test

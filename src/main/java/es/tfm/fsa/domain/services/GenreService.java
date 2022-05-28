@@ -19,4 +19,8 @@ public class GenreService {
     public Optional<Genre> create(Genre genre) {
         return this.genrePersistence.create(genre);
     }
+
+    public Optional<Genre> read(String name) {
+        return this.genrePersistence.readByName(name);
+    }
 }

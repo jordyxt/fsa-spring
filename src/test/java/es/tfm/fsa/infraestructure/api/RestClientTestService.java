@@ -1,4 +1,4 @@
-package es.tfm.fsa.infraestructure.api.resources;
+package es.tfm.fsa.infraestructure.api;
 
 import es.tfm.fsa.configuration.JwtService;
 import es.tfm.fsa.domain.model.Role;
