@@ -36,4 +36,8 @@ public class GenreService {
                     return dataGenre;
                 }).flatMap(dataGenre -> this.genrePersistence.update(name, dataGenre));
     }
+
+    public Void delete(String name) {
+        return this.genrePersistence.delete(name);
+    }
 }

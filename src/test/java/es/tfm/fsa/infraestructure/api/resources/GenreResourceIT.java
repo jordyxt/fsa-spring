@@ -68,4 +68,30 @@ public class GenreResourceIT {
                     assertEquals("description", returnTag.getDescription());
                 });
     }
+    @Test
+    void testDelete() {
+        Genre genre = Genre.builder().name("genreRTest2").description("description").build();
+        this.restClientTestService.loginAdmin(webTestClient)
+                .post()
+                .uri(GENRES).body(Mono.just(genre),Genre.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Genre.class)
+                .value(Assertions::assertNotNull)
+                .value(returnGenre ->{
+                    System.out.println(">>>>> Test:: returnGenre:" + returnGenre);
+                    assertEquals("genreRTest2", returnGenre.getName());
+                    assertEquals("description", returnGenre.getDescription());
+                });
+        this.restClientTestService.loginAdmin(webTestClient)
+                .delete()
+                .uri(GENRES + "/genreRTest2")
+                .exchange()
+                .expectStatus().isNoContent();
+        this.restClientTestService.loginAdmin(webTestClient)
+                .get()
+                .uri(GENRES + "/genreRTest2")
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 }

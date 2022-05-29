@@ -2,6 +2,7 @@ package es.tfm.fsa.infraestructure.postgres.persistence;
 
 import es.tfm.fsa.TestConfig;
 import es.tfm.fsa.domain.exceptions.ConflictException;
+import es.tfm.fsa.domain.exceptions.NotFoundException;
 import es.tfm.fsa.domain.model.Genre;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,21 @@ public class GenrePersistencePostgresIT {
                 })
                 .expectComplete()
                 .verify();
+    }
+    @Test
+    void testDelete() {
+        StepVerifier
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.create(
+                        Genre.builder().name("nameP2").description("descriptionP2").build())))
+                .expectNextMatches(genre -> {
+                    assertEquals("nameP2", genre.getName());
+                    assertEquals("descriptionP2", genre.getDescription());
+                    return true;
+                })
+                .verifyComplete();
+        StepVerifier
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.delete("nameP2")))
+                .verifyComplete();
+        assertThrows(NotFoundException.class, () ->this.genrePersistencePostgres.delete("nameP2"));
     }
 }
