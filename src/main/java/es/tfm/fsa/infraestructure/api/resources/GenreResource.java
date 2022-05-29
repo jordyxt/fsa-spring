@@ -4,6 +4,7 @@ import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.services.GenreService;
 import es.tfm.fsa.infraestructure.api.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -42,7 +43,8 @@ public class GenreResource {
     }
 
     @DeleteMapping(NAME_ID)
-    public Void delete(@PathVariable String name, @Valid @RequestBody Genre genre) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public Void delete(@PathVariable String name) {
         return this.genreService.delete(name);
     }
     @PreAuthorize("permitAll()")
