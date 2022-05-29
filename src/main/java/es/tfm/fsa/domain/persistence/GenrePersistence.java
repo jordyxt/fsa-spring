@@ -12,5 +12,7 @@ public interface GenrePersistence {
 
     Optional<Genre> readByName(String name);
 
+    Optional<Genre> update(String name, Genre genre);
+
     Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description);
 }

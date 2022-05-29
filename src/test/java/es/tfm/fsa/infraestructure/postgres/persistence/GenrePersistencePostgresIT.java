@@ -1,6 +1,7 @@
 package es.tfm.fsa.infraestructure.postgres.persistence;
 
 import es.tfm.fsa.TestConfig;
+import es.tfm.fsa.domain.exceptions.ConflictException;
 import es.tfm.fsa.domain.model.Genre;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestConfig
 public class GenrePersistencePostgresIT {
@@ -35,6 +37,34 @@ public class GenrePersistencePostgresIT {
                     return true;
                 })
                 .thenCancel()
+                .verify();
+    }
+    @Test
+    void testUpdate() {
+        StepVerifier
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.update("name3",
+                        Genre.builder().name("name3").description("descriptionTest").build())))
+                .expectNextMatches(tag -> {
+                    assertEquals("descriptionTest", tag.getDescription());
+                    return true;
+                })
+                .verifyComplete();
+    }
+    @Test
+    void testUpdateExistingName() {
+        assertThrows(ConflictException.class, () ->this.genrePersistencePostgres.update("name1",
+                Genre.builder().name("name2").description("description").build()));
+    }
+    @Test
+    void testReadByName() {
+        StepVerifier
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.readByName("name1")))
+                .expectNextMatches(genre -> {
+                    assertEquals("name1", genre.getName());
+                    assertEquals("description", genre.getDescription());
+                    return true;
+                })
+                .expectComplete()
                 .verify();
     }
 }

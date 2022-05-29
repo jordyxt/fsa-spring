@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import static es.tfm.fsa.infraestructure.api.resources.GenreResource.GENRES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RestTestConfig
 public class GenreResourceIT {
@@ -31,6 +35,37 @@ public class GenreResourceIT {
                     System.out.println(">>>>> Test:: returnGenre:" + returnGenre);
                     assertEquals("genreRTest1", returnGenre.getName());
                     assertEquals("description", returnGenre.getDescription());
+                });
+    }
+    @Test
+    void testUpdate() {
+        Genre genre = Genre.builder().name("tagTest2").description("description").build();
+        this.restClientTestService.loginAdmin(webTestClient)
+                .put()
+                .uri(GENRES + "/name2")
+                .body(Mono.just(genre), Genre.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Genre.class)
+                .value(Assertions::assertNotNull)
+                .value(returnTag -> {
+                    System.out.println(">>>>> Test:: returnTag:" + returnTag);
+                    assertEquals("tagTest2", returnTag.getName());
+                    assertEquals("description", returnTag.getDescription());
+                });
+    }
+    @Test
+    void testRead() {
+        this.restClientTestService.loginAdmin(webTestClient)
+                .get()
+                .uri(GENRES + "/name1")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Genre.class)
+                .value(Assertions::assertNotNull)
+                .value(returnTag -> {
+                    assertEquals("name1", returnTag.getName());
+                    assertEquals("description", returnTag.getDescription());
                 });
     }
 }
