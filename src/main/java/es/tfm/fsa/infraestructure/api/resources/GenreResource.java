@@ -4,6 +4,7 @@ import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.services.GenreService;
 import es.tfm.fsa.infraestructure.api.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -38,5 +39,10 @@ public class GenreResource {
     @PutMapping(NAME_ID)
     public Optional<Genre> update(@PathVariable String name, @Valid @RequestBody Genre genre) {
         return this.genreService.update(name, genre);
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping(NAME_ID)
+    public Optional<Genre> read(@PathVariable String name) {
+        return this.genreService.read(name);
     }
 }
