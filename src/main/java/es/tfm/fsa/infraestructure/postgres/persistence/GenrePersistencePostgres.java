@@ -56,6 +56,20 @@ public class GenrePersistencePostgres implements GenrePersistence {
     public Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description) {
         return this.genreDao.findByNameAndDescriptionContainingNullSafe(name, description).stream().map(GenreEntity::toGenre);
     }
+
+    @Override
+    public Void delete(String name) {
+        Optional<GenreEntity> genreEntityOptional;
+        assertNameExist(name);
+        genreEntityOptional = this.genreDao.findByName(name);
+        genreEntityOptional.map(genreEntity ->{
+                this.genreDao.deleteById(genreEntity.getId());
+                return null;
+            }
+        );
+        return null;
+    }
+
     private void assertNameExist(String name) {
         if (this.genreDao.findByName(name).isEmpty()) {
             throw new NotFoundException("Non existent genre name: " + name);

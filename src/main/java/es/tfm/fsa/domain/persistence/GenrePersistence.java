@@ -15,4 +15,6 @@ public interface GenrePersistence {
     Optional<Genre> update(String name, Genre genre);
 
     Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description);
+
+    Void delete(String name);
 }

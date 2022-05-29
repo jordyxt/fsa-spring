@@ -40,6 +40,11 @@ public class GenreResource {
     public Optional<Genre> update(@PathVariable String name, @Valid @RequestBody Genre genre) {
         return this.genreService.update(name, genre);
     }
+
+    @DeleteMapping(NAME_ID)
+    public Void delete(@PathVariable String name, @Valid @RequestBody Genre genre) {
+        return this.genreService.delete(name);
+    }
     @PreAuthorize("permitAll()")
     @GetMapping(NAME_ID)
     public Optional<Genre> read(@PathVariable String name) {
