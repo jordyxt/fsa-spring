@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 public interface GenrePersistence {
     Optional<Genre> create(Genre genre);
 
-    Optional<Genre> readByName(String name);
+    Optional<Genre> findByName(String name);
 
     Optional<Genre> update(String name, Genre genre);
 

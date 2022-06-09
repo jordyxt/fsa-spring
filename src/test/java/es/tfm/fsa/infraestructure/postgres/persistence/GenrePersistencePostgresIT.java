@@ -59,7 +59,7 @@ public class GenrePersistencePostgresIT {
     @Test
     void testReadByName() {
         StepVerifier
-                .create(Mono.justOrEmpty(this.genrePersistencePostgres.readByName("name1")))
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.findByName("name1")))
                 .expectNextMatches(genre -> {
                     assertEquals("name1", genre.getName());
                     assertEquals("description", genre.getDescription());
