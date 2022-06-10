@@ -39,11 +39,24 @@ public class GenreResourceIT {
     }
     @Test
     void testUpdate() {
-        Genre genre = Genre.builder().name("tagTest2").description("description").build();
+        Genre genre = Genre.builder().name("genreRTest3").description("description").build();
+        this.restClientTestService.loginAdmin(webTestClient)
+                .post()
+                .uri(GENRES).body(Mono.just(genre),Genre.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Genre.class)
+                .value(Assertions::assertNotNull)
+                .value(returnGenre ->{
+                    System.out.println(">>>>> Test:: returnGenre:" + returnGenre);
+                    assertEquals("genreRTest3", returnGenre.getName());
+                    assertEquals("description", returnGenre.getDescription());
+                });
+        Genre genreUpdated = Genre.builder().name("tagTest2").description("description").build();
         this.restClientTestService.loginAdmin(webTestClient)
                 .put()
-                .uri(GENRES + "/name2")
-                .body(Mono.just(genre), Genre.class)
+                .uri(GENRES + "/genreRTest3")
+                .body(Mono.just(genreUpdated), Genre.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Genre.class)
@@ -58,14 +71,14 @@ public class GenreResourceIT {
     void testRead() {
         this.restClientTestService.loginAdmin(webTestClient)
                 .get()
-                .uri(GENRES + "/name1")
+                .uri(GENRES + "/action")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Genre.class)
                 .value(Assertions::assertNotNull)
                 .value(returnTag -> {
-                    assertEquals("name1", returnTag.getName());
-                    assertEquals("description", returnTag.getDescription());
+                    assertEquals("action", returnTag.getName());
+                    assertEquals("Action", returnTag.getDescription());
                 });
     }
     @Test

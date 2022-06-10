@@ -23,14 +23,14 @@ public class GenreService {
     }
 
     public Optional<Genre> read(String name) {
-        return this.genrePersistence.readByName(name);
+        return this.genrePersistence.findByName(name);
     }
 
     public Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description) {
         return this.genrePersistence.findByNameAndDescriptionContainingNullSafe(name, description);
     }
     public Optional<Genre> update(String name, Genre genre) {
-        return this.genrePersistence.readByName(name)
+        return this.genrePersistence.findByName(name)
                 .map(dataGenre -> {
                     BeanUtils.copyProperties(genre, dataGenre);
                     return dataGenre;

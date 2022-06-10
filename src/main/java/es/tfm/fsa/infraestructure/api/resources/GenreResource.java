@@ -30,6 +30,7 @@ public class GenreResource {
     public Optional<Genre> create(@Valid @RequestBody Genre genre) {
         return this.genreService.create(genre);
     }
+    @PreAuthorize("permitAll()")
     @GetMapping(SEARCH)
     public Stream<Genre> findByNameAndDescriptionContainingNullSafe(
             @RequestParam(required = false) String name,

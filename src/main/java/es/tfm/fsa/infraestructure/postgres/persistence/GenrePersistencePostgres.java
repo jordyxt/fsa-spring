@@ -32,7 +32,7 @@ public class GenrePersistencePostgres implements GenrePersistence {
     }
 
     @Override
-    public Optional<Genre> readByName(String name) {
+    public Optional<Genre> findByName(String name) {
         assertNameExist(name);
         return  this.genreDao.findByName(name).map(GenreEntity::toGenre);
     }
