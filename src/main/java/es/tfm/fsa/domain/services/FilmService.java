@@ -6,8 +6,10 @@ import es.tfm.fsa.domain.persistence.FilmPersistence;
 import es.tfm.fsa.domain.persistence.GenrePersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,12 +23,14 @@ public class FilmService {
     public Optional<Film> create(Film film) {
         return this.filmPersistence.create(film);
     }
-    public Optional<Film> read(Integer id) {
-        return this.filmPersistence.readById(id);
+    @Transactional
+    public Optional<Film> read(int id) {
+        return this.filmPersistence.findById(id);
     }
-    public Stream<Film> findByTitleAndGenreListNullSafe(String title, Collection<String> genres) {
+    @Transactional
+    public Stream<Film> findByTitleAndGenreListNullSafe(String title, List<String> genres) {
         return this.filmPersistence.findByTitleNullSafe(title).filter(film ->
-                (film.getGenreList().stream().map(Genre::getDescription).
+                (genres == null || genres.isEmpty() || film.getGenreList().stream().map(Genre::getName).
                         collect(Collectors.toList()).containsAll(genres)));
     }
 }

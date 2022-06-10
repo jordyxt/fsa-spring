@@ -17,9 +17,10 @@ public class FilmServiceIT {
     private FilmService filmService;
     @Test
     void testFindByTitleAndGenreList() {
-        this.filmService.findByTitleAndGenreListNullSafe(null, new ArrayList<String>(Arrays.asList("action","fantasy")))
-                .map(genre -> {
-                    assertThat(genre.getTitle(), is("Fantastic Beasts: The Secrets of Dumbledore"));
+        this.filmService.findByTitleAndGenreListNullSafe(null, Arrays.asList("action","adventure","sci-fi"))
+                .map(film -> {
+                    System.out.println(film.toString());
+                    assertThat(film.getTitle(), is("Jurassic World Dominion"));
                     return true;
                 });
 

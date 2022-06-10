@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,6 +17,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Film {
     @NotBlank
+    private int id;
+    @NotBlank
     private String title;
     @NotBlank
     private String description;
@@ -27,5 +27,5 @@ public class Film {
     @NotBlank
     private List<Genre> genreList;
     @NotBlank
-    private Byte[] poster;
+    private byte[] poster;
 }

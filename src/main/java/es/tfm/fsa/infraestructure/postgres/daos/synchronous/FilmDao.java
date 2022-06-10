@@ -13,8 +13,11 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface FilmDao extends JpaRepository<FilmEntity, Integer > {
-    Optional<FilmEntity> findById(Integer id);
+    Optional<FilmEntity> findById(int id);
+
+    Optional<FilmEntity> findByTitle(String title);
+
     @Query("select f from FilmEntity f where " +
             "(?1 is null or lower(f.title) like lower(concat('%', cast( ?1 as string),'%')))")
-    List<FilmEntity> findByTitle(String title);
+    List<FilmEntity> findByTitleContaining(String title);
 }

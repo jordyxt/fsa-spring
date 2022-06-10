@@ -23,8 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.Date;
 import java.util.List;
 
 @Service // @Profile("dev")
@@ -118,7 +116,7 @@ public class DatabaseSeederDev {
         this.filmDao.saveAll(Arrays.asList(films));
         LogManager.getLogger(this.getClass()).warn("        ------- films");
     }
-    private Byte[] downloadFile(URL url) {
+    private byte[] downloadFile(URL url) {
         try {
             URLConnection conn = url.openConnection();
             conn.setConnectTimeout(5000);
@@ -128,7 +126,7 @@ public class DatabaseSeederDev {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             IOUtils.copy(conn.getInputStream(), baos);
 
-            return ArrayUtils.toObject(baos.toByteArray());
+            return  ArrayUtils.toPrimitive(ArrayUtils.toObject(baos.toByteArray()));
         } catch (IOException e) {
             e.printStackTrace();
         }

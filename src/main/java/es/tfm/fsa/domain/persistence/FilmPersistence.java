@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 public interface FilmPersistence {
     Optional<Film> create(Film film);
 
-    Optional<Film> readById(Integer id);
+    Optional<Film> findById(int id);
 
-    Optional<Film> update(Integer id, Film film);
+    Optional<Film> update(int id, Film film);
 
     Stream<Film> findByTitleNullSafe(String title);
 

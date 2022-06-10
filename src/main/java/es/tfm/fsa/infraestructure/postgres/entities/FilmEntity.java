@@ -35,7 +35,7 @@ public class FilmEntity {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<GenreEntity> genreEntityList;
     @Lob
-    private Byte[] poster;
+    private byte[] poster;
 
     public FilmEntity(Film film) {
         BeanUtils.copyProperties(film, this);

@@ -1,18 +1,12 @@
 package es.tfm.fsa.infraestructure.postgres.persistence;
 
 import es.tfm.fsa.domain.model.Film;
-import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.persistence.FilmPersistence;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
 import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.GenreEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Stream;
 @Repository
@@ -29,18 +23,18 @@ public class FilmPersistencePostgres implements FilmPersistence {
     }
 
     @Override
-    public Optional<Film> readById(Integer id) {
-        return Optional.empty();
+    public Optional<Film> findById(int id) {
+        return this.filmDao.findById(id).map(FilmEntity::toFilm);
     }
 
     @Override
-    public Optional<Film> update(Integer id, Film film) {
+    public Optional<Film> update(int id, Film film) {
         return Optional.empty();
     }
 
     @Override
     public Stream<Film> findByTitleNullSafe(String title) {
-        return this.filmDao.findByTitle(title).stream().map(FilmEntity::toFilm);
+        return this.filmDao.findByTitleContaining(title).stream().map(FilmEntity::toFilm);
     }
 
     @Override
