@@ -43,26 +43,35 @@ public class GenrePersistencePostgresIT {
     @Test
     void testUpdate() {
         StepVerifier
-                .create(Mono.justOrEmpty(this.genrePersistencePostgres.update("name3",
-                        Genre.builder().name("name3").description("descriptionTest").build())))
-                .expectNextMatches(tag -> {
-                    assertEquals("descriptionTest", tag.getDescription());
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.create(
+                        Genre.builder().name("nameP3").description("descriptionP").build())))
+                .expectNextMatches(genre -> {
+                    assertEquals("nameP3", genre.getName());
+                    assertEquals("descriptionP", genre.getDescription());
+                    return true;
+                })
+                .verifyComplete();
+        StepVerifier
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.update("nameP3",
+                        Genre.builder().name("nameP3").description("descriptionTest").build())))
+                .expectNextMatches(genre -> {
+                    assertEquals("descriptionTest", genre.getDescription());
                     return true;
                 })
                 .verifyComplete();
     }
     @Test
     void testUpdateExistingName() {
-        assertThrows(ConflictException.class, () ->this.genrePersistencePostgres.update("name1",
-                Genre.builder().name("name2").description("description").build()));
+        assertThrows(ConflictException.class, () ->this.genrePersistencePostgres.update("action",
+                Genre.builder().name("romance").description("Romance").build()));
     }
     @Test
     void testReadByName() {
         StepVerifier
-                .create(Mono.justOrEmpty(this.genrePersistencePostgres.findByName("name1")))
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.findByName("action")))
                 .expectNextMatches(genre -> {
-                    assertEquals("name1", genre.getName());
-                    assertEquals("description", genre.getDescription());
+                    assertEquals("action", genre.getName());
+                    assertEquals("Action", genre.getDescription());
                     return true;
                 })
                 .expectComplete()

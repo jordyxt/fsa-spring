@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,13 +27,15 @@ public class FilmEntity {
     @Column(unique = true, nullable = false)
     private String title;
     private String description;
-    private Date releaseDate;
-    @ManyToMany
+    private LocalDate releaseDate;
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_genre",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<GenreEntity> genreEntityList;
+    @Lob
+    private Byte[] poster;
 
     public FilmEntity(Film film) {
         BeanUtils.copyProperties(film, this);

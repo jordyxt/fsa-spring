@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +23,9 @@ public class Film {
     @NotBlank
     private String description;
     @NotBlank
-    private Date releaseDate;
+    private LocalDate releaseDate;
     @NotBlank
     private List<Genre> genreList;
+    @NotBlank
+    private Byte[] poster;
 }

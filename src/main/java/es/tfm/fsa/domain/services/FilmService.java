@@ -24,7 +24,7 @@ public class FilmService {
     public Optional<Film> read(Integer id) {
         return this.filmPersistence.readById(id);
     }
-    public Stream<Film> findByNameAndDescriptionContainingNullSafe(String title, Collection<String> genres) {
+    public Stream<Film> findByTitleAndGenreListNullSafe(String title, Collection<String> genres) {
         return this.filmPersistence.findByTitleNullSafe(title).filter(film ->
                 (film.getGenreList().stream().map(Genre::getDescription).
                         collect(Collectors.toList()).containsAll(genres)));
