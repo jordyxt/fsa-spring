@@ -52,7 +52,7 @@ public class GenreResourceIT {
                     assertEquals("genreRTest3", returnGenre.getName());
                     assertEquals("description", returnGenre.getDescription());
                 });
-        Genre genreUpdated = Genre.builder().name("tagTest2").description("description").build();
+        Genre genreUpdated = Genre.builder().name("genreRTest32").description("description").build();
         this.restClientTestService.loginAdmin(webTestClient)
                 .put()
                 .uri(GENRES + "/genreRTest3")
@@ -61,10 +61,10 @@ public class GenreResourceIT {
                 .expectStatus().isOk()
                 .expectBody(Genre.class)
                 .value(Assertions::assertNotNull)
-                .value(returnTag -> {
-                    System.out.println(">>>>> Test:: returnTag:" + returnTag);
-                    assertEquals("tagTest2", returnTag.getName());
-                    assertEquals("description", returnTag.getDescription());
+                .value(returnGenre -> {
+                    System.out.println(">>>>> Test:: returnGenre:" + returnGenre);
+                    assertEquals("genreRTest32", returnGenre.getName());
+                    assertEquals("description", returnGenre.getDescription());
                 });
     }
     @Test
