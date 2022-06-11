@@ -33,7 +33,7 @@ public class FilmSearchDto {
         this.id = film.getId();
         this.title = film.getTitle();
         this.description = film.getDescription();
-        this.releaseYear = Integer.toString(film.getReleaseDate().getYear());
+        this.releaseYear = film.getReleaseDate()!=null?Integer.toString(film.getReleaseDate().getYear()):null;
         if (film.getGenreList() != null) {
             this.genreList = film.getGenreList().stream()
                     .map(Genre::getName).collect(Collectors.toList());
