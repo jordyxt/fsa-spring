@@ -34,8 +34,8 @@ public class SeriesSearchDto {
         this.id = series.getId();
         this.title = series.getTitle();
         this.description = series.getDescription();
-        this.releaseYear = series.getReleaseDate()==null?Integer.toString(series.getReleaseDate().getYear()):null;
-        this.endingYear = series.getEndingDate()==null?Integer.toString(series.getEndingDate().getYear()):null;
+        this.releaseYear = series.getReleaseDate()!=null?Integer.toString(series.getReleaseDate().getYear()):null;
+        this.endingYear = series.getEndingDate()!=null?Integer.toString(series.getEndingDate().getYear()):null;
         if (series.getGenreList() != null) {
             this.genreList = series.getGenreList().stream()
                     .map(Genre::getName).collect(Collectors.toList());
