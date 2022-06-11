@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FilmTest {
+public class SeriesTest {
     @Test
-    void testDescriptionFilm() {
-        Film x = Film.builder().title("testFilm").description("d1").build();
-        assertEquals("testFilm", x.getTitle());
+    void testDescriptionSeries() {
+        Film x = Film.builder().title("testSeries").description("d1").build();
+        assertEquals("testSeries", x.getTitle());
         assertEquals("d1", x.getDescription());
     }
 }

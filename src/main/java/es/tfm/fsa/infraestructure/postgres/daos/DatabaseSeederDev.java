@@ -3,9 +3,11 @@ package es.tfm.fsa.infraestructure.postgres.daos;
 import es.tfm.fsa.domain.model.Role;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
+import es.tfm.fsa.infraestructure.postgres.daos.synchronous.SeriesDao;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.UserDao;
 import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
 import es.tfm.fsa.infraestructure.postgres.entities.GenreEntity;
+import es.tfm.fsa.infraestructure.postgres.entities.SeriesEntity;
 import es.tfm.fsa.infraestructure.postgres.entities.UserEntity;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -32,11 +34,14 @@ public class DatabaseSeederDev {
     private UserDao userDao;
     private GenreDao genreDao;
     private FilmDao filmDao;
+    private SeriesDao seriesDao;
     @Autowired
-    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, FilmDao filmDao, DatabaseStarting databaseStarting) {
+    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, FilmDao filmDao,
+                             SeriesDao seriesDao, DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
         this.filmDao = filmDao;
+        this.seriesDao = seriesDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -48,6 +53,7 @@ public class DatabaseSeederDev {
     public void deleteAllAndInitialize() {
         this.userDao.deleteAll();
         this.filmDao.deleteAll();
+        this.seriesDao.deleteAll();
         this.genreDao.deleteAll();
         LogManager.getLogger(this.getClass()).warn("------- Deleted All -----------");
         this.databaseStarting.initialize();
@@ -74,7 +80,9 @@ public class DatabaseSeederDev {
                 GenreEntity.builder().name("drama").description("Drama").build(),
                 GenreEntity.builder().name("romance").description("Romance").build(),
                 GenreEntity.builder().name("comedy").description("Comedy").build(),
-                GenreEntity.builder().name("fantasy").description("Fantasy").build()
+                GenreEntity.builder().name("fantasy").description("Fantasy").build(),
+                GenreEntity.builder().name("crime").description("Crime").build(),
+                GenreEntity.builder().name("animation").description("Animation").build()
         };
         this.genreDao.saveAll(Arrays.asList(genres));
         LogManager.getLogger(this.getClass()).warn("        ------- genres");
@@ -115,6 +123,44 @@ public class DatabaseSeederDev {
         }
         this.filmDao.saveAll(Arrays.asList(films));
         LogManager.getLogger(this.getClass()).warn("        ------- films");
+        SeriesEntity[] series ={};
+        try {
+            series = new SeriesEntity[]{
+                    SeriesEntity.builder().title("How I Met Your Mother")
+                            .description("A father recounts to his children - through a series of flashbacks - the "+
+                                    "journey he and his four best friends took leading up to him meeting their mother.").
+                            releaseDate(LocalDate.of(2005, Month.SEPTEMBER, 19)).
+                            endingDate(LocalDate.of(2014, Month.MARCH, 31)).
+                            poster(downloadFile(
+                                    new URL("https://m.media-amazon.com/images/M/"+
+                                            "MV5BNjg1MDQ5MjQ2N15BMl5BanBnXkFtZTYwNjI5NjA3._V1_FMjpg_UX1000_.jpg"))).
+                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[5]}))
+                            .build(),
+                    SeriesEntity.builder().title("Suits")
+                            .description("On the run from a drug deal gone bad, brilliant college dropout Mike Ross "+
+                                    "finds himself working with Harvey Specter, one of New York City's best lawyers.").
+                            releaseDate(LocalDate.of(2011, Month.JUNE, 23)).
+                            endingDate(LocalDate.of(2019, Month.SEPTEMBER, 25)).
+                            poster(downloadFile(
+                                    new URL("https://es.web.img2.acsta.net/pictures/14/03/28/10/18/433386.jpg"))).
+                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[4]}))
+                            .build(),
+                    SeriesEntity.builder().title("Money Heist")
+                            .description("An unusual group of robbers attempt to carry out the most perfect robbery "+
+                                    "in Spanish history - stealing 2.4 billion euros from the Royal Mint of Spain.").
+                            releaseDate(LocalDate.of(2017, Month.MAY, 2)).
+                            endingDate(LocalDate.of(2021, Month.DECEMBER, 3)).
+                            poster(downloadFile(
+                                    new URL("https://static.wikia.nocookie.net/netflix/images/0/0e/"+
+                                            "MH_S5_Promotional.jpg/revision/latest?cb=20210904021400"))).
+                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[8], genres[4]}))
+                            .build()
+            };
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        this.seriesDao.saveAll(Arrays.asList(series));
+        LogManager.getLogger(this.getClass()).warn("        ------- series");
     }
     private byte[] downloadFile(URL url) {
         try {

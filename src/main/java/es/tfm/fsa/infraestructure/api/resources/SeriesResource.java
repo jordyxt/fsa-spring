@@ -1,9 +1,7 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
-import es.tfm.fsa.domain.services.FilmService;
 import es.tfm.fsa.domain.services.SeriesService;
 import es.tfm.fsa.infraestructure.api.Rest;
-import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import es.tfm.fsa.infraestructure.api.dtos.SeriesSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
