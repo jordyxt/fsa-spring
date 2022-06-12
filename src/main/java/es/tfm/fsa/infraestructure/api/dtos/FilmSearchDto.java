@@ -24,9 +24,7 @@ public class FilmSearchDto {
     private String title;
     @NotBlank
     private String description;
-    @NotBlank
     private String releaseYear;
-    @NotBlank
     private List<String> genreList;
 
     public FilmSearchDto(Film film) {

@@ -2,6 +2,7 @@ package es.tfm.fsa.infraestructure.postgres.entities;
 
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +38,15 @@ public class FilmEntity {
     private List<GenreEntity> genreEntityList;
     @Lob
     private byte[] poster;
+    private String trailer;
 
     public FilmEntity(Film film) {
         BeanUtils.copyProperties(film, this);
+        this.genreEntityList = new ArrayList<>();
+    }
+    public FilmEntity(FilmFormDto filmFormDto) {
+        BeanUtils.copyProperties(filmFormDto, this);
+        this.poster = Base64.getDecoder().decode(filmFormDto.getPoster().split(",")[1]);
         this.genreEntityList = new ArrayList<>();
     }
 

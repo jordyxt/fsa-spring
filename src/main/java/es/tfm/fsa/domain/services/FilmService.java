@@ -4,6 +4,7 @@ import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.persistence.FilmPersistence;
 import es.tfm.fsa.domain.persistence.GenrePersistence;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,8 @@ public class FilmService {
     public FilmService(FilmPersistence filmPersistence){
         this.filmPersistence = filmPersistence;
     }
-    public Optional<Film> create(Film film) {
-        return this.filmPersistence.create(film);
+    public Optional<Film> create(FilmFormDto filmFormDto) {
+        return this.filmPersistence.create(filmFormDto);
     }
     @Transactional
     public Optional<Film> read(int id) {

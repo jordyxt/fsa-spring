@@ -3,14 +3,22 @@ package es.tfm.fsa.infraestructure.api.resources;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.infraestructure.api.RestClientTestService;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Arrays;
 
 import static es.tfm.fsa.infraestructure.api.resources.FilmResource.FILMS;
 import static es.tfm.fsa.infraestructure.api.resources.FilmResource.SEARCH;
+import static es.tfm.fsa.infraestructure.api.resources.GenreResource.GENRES;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 @RestTestConfig
 public class FilmResourceIT {
@@ -35,6 +43,24 @@ public class FilmResourceIT {
                             .anyMatch(film ->
                                     film.getTitle().equals("Jurassic World Dominion")
                             ));
+                });
+    }
+    @Test
+    void testCreate() {
+        FilmFormDto filmFormDto = FilmFormDto.builder().title("filmRTest1").description("description").
+                releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
+                genreList(Arrays.asList("action","adventure","sci-fi")).build();
+        this.restClientTestService.loginAdmin(webTestClient)
+                .post()
+                .uri(FILMS).body(Mono.just(filmFormDto),FilmFormDto.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Film.class)
+                .value(Assertions::assertNotNull)
+                .value(returnFilm ->{
+                    System.out.println(">>>>> Test:: returnGenre:" + returnFilm);
+                    assertEquals("filmRTest1", returnFilm.getTitle());
+                    assertEquals("description", returnFilm.getDescription());
                 });
     }
 }

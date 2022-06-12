@@ -1,18 +1,19 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
 import es.tfm.fsa.domain.model.Film;
+import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.services.FilmService;
 import es.tfm.fsa.infraestructure.api.Rest;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Rest
@@ -29,6 +30,11 @@ public class FilmResource {
     @Autowired
     public FilmResource(FilmService filmService){
         this.filmService = filmService;
+    }
+    @PostMapping(produces = {"application/json"})
+    public Optional<Film> create(@Valid @RequestBody FilmFormDto filmFormDto) {
+        filmFormDto.doDefault();
+        return this.filmService.create(filmFormDto);
     }
     @PreAuthorize("permitAll()")
     @GetMapping(SEARCH)
