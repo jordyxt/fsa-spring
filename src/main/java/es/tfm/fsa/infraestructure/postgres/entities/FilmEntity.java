@@ -26,7 +26,6 @@ public class FilmEntity {
     @GeneratedValue
     private int id;
     @NonNull
-    @Column(unique = true, nullable = false)
     private String title;
     private String description;
     private LocalDate releaseDate;
@@ -46,7 +45,8 @@ public class FilmEntity {
     }
     public FilmEntity(FilmFormDto filmFormDto) {
         BeanUtils.copyProperties(filmFormDto, this);
-        this.poster = Base64.getDecoder().decode(filmFormDto.getPoster().split(",")[1]);
+        this.poster = filmFormDto.getPoster()!=null?
+                Base64.getDecoder().decode(filmFormDto.getPoster().split(",")[1]):null;
         this.genreEntityList = new ArrayList<>();
     }
 

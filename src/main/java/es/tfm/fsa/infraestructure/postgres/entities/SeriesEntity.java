@@ -24,11 +24,10 @@ public class SeriesEntity {
     @GeneratedValue
     private int id;
     @NonNull
-    @Column(unique = true, nullable = false)
     private String title;
     private String description;
     private LocalDate releaseDate;
-    private int seasons;
+    private Integer seasons;
     private LocalDate endingDate;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -45,7 +44,8 @@ public class SeriesEntity {
     }
     public SeriesEntity(SeriesFormDto seriesFormDto) {
         BeanUtils.copyProperties(seriesFormDto, this);
-        this.poster = Base64.getDecoder().decode(seriesFormDto.getPoster().split(",")[1]);
+        this.poster = seriesFormDto.getPoster()!=null?
+                Base64.getDecoder().decode(seriesFormDto.getPoster().split(",")[1]):null;
         this.genreEntityList = new ArrayList<>();
     }
     public void add(GenreEntity genreEntity) {

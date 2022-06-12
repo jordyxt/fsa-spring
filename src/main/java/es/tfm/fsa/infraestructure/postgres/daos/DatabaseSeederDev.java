@@ -130,6 +130,7 @@ public class DatabaseSeederDev {
                             .description("A father recounts to his children - through a series of flashbacks - the "+
                                     "journey he and his four best friends took leading up to him meeting their mother.").
                             releaseDate(LocalDate.of(2005, Month.SEPTEMBER, 19)).
+                            seasons(9).
                             endingDate(LocalDate.of(2014, Month.MARCH, 31)).
                             poster(downloadFile(
                                     new URL("https://m.media-amazon.com/images/M/"+
@@ -140,6 +141,7 @@ public class DatabaseSeederDev {
                             .description("On the run from a drug deal gone bad, brilliant college dropout Mike Ross "+
                                     "finds himself working with Harvey Specter, one of New York City's best lawyers.").
                             releaseDate(LocalDate.of(2011, Month.JUNE, 23)).
+                            seasons(9).
                             endingDate(LocalDate.of(2019, Month.SEPTEMBER, 25)).
                             poster(downloadFile(
                                     new URL("https://es.web.img2.acsta.net/pictures/14/03/28/10/18/433386.jpg"))).
@@ -149,6 +151,7 @@ public class DatabaseSeederDev {
                             .description("An unusual group of robbers attempt to carry out the most perfect robbery "+
                                     "in Spanish history - stealing 2.4 billion euros from the Royal Mint of Spain.").
                             releaseDate(LocalDate.of(2017, Month.MAY, 2)).
+                            seasons(3).
                             endingDate(LocalDate.of(2021, Month.DECEMBER, 3)).
                             poster(downloadFile(
                                     new URL("https://static.wikia.nocookie.net/netflix/images/0/0e/"+

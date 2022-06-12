@@ -25,7 +25,7 @@ public class Series {
     @NotBlank
     private LocalDate releaseDate;
     @NotBlank
-    private int seasons;
+    private Integer seasons;
     @NotBlank
     private LocalDate endingDate;
     @NotBlank
