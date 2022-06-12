@@ -2,6 +2,7 @@ package es.tfm.fsa.infraestructure.postgres.entities;
 
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
@@ -36,9 +37,14 @@ public class FilmEntity {
     private List<GenreEntity> genreEntityList;
     @Lob
     private byte[] poster;
+    private String trailer;
 
     public FilmEntity(Film film) {
         BeanUtils.copyProperties(film, this);
+        this.genreEntityList = new ArrayList<>();
+    }
+    public FilmEntity(FilmFormDto filmFormDto) {
+        BeanUtils.copyProperties(filmFormDto, this);
         this.genreEntityList = new ArrayList<>();
     }
 

@@ -3,13 +3,20 @@ package es.tfm.fsa.infraestructure.api.dtos;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.domain.model.User;
+import es.tfm.fsa.infraestructure.postgres.entities.GenreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
@@ -17,24 +24,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FilmSearchDto {
-    @NotBlank
-    private int id;
+public class FilmFormDto {
     @NotBlank
     private String title;
     @NotBlank
     private String description;
-    private String releaseYear;
+    private LocalDate releaseDate;
     private List<String> genreList;
+    private byte[] poster;
+    private String trailer;
 
-    public FilmSearchDto(Film film) {
-        this.id = film.getId();
-        this.title = film.getTitle();
-        this.description = film.getDescription();
-        this.releaseYear = film.getReleaseDate()!=null?Integer.toString(film.getReleaseDate().getYear()):null;
-        if (film.getGenreList() != null) {
-            this.genreList = film.getGenreList().stream()
-                    .map(Genre::getName).collect(Collectors.toList());
+    public void doDefault() {
+        if (Objects.isNull(genreList)) {
+            this.genreList = new ArrayList<String>();
         }
     }
 }
