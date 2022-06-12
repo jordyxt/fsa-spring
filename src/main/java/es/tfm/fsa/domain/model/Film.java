@@ -28,4 +28,6 @@ public class Film {
     private List<Genre> genreList;
     @NotBlank
     private byte[] poster;
+    @NotBlank
+    private String trailer;
 }

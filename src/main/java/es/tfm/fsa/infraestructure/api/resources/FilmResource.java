@@ -23,7 +23,6 @@ public class FilmResource {
     public static final String SEARCH = "/search";
     public static final String PICTURES = "/pictures";
     public static final String ID = "/{id}";
-    public static final String TITLE = "/{title}";
 
     private FilmService filmService;
 
@@ -52,5 +51,10 @@ public class FilmResource {
         byte[] media = this.filmService.read(id).get().getPoster();
         ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
         return responseEntity;
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping(ID)
+    public Optional<Film> read(@PathVariable Integer id) {
+        return this.filmService.read(id);
     }
 }
