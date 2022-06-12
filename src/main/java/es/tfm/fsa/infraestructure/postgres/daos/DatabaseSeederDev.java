@@ -93,6 +93,7 @@ public class DatabaseSeederDev {
                             .description("Four years after the destruction of Isla Nublar, " +
                                     "dinosaurs now live--and hunt--alongside humans all over the world.").
                             releaseDate(LocalDate.of(2022, Month.JUNE, 10)).
+                            trailer("https://www.youtube.com/embed/fb5ELWi-ekk").
                             poster(downloadFile(
                                     new URL("https://www.universalpictures.es/tl_files/content/movies/" +
                                             "jurassic_world_dominion/poster/01.jpg"))).
