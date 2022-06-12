@@ -1,5 +1,6 @@
 package es.tfm.fsa.infraestructure.api.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
@@ -29,9 +30,10 @@ public class FilmFormDto {
     private String title;
     @NotBlank
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
     private List<String> genreList;
-    private byte[] poster;
+    private String poster;
     private String trailer;
 
     public void doDefault() {

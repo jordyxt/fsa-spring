@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +46,7 @@ public class FilmEntity {
     }
     public FilmEntity(FilmFormDto filmFormDto) {
         BeanUtils.copyProperties(filmFormDto, this);
+        this.poster = Base64.getDecoder().decode(filmFormDto.getPoster().split(",")[1]);
         this.genreEntityList = new ArrayList<>();
     }
 
