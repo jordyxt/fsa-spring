@@ -1,12 +1,15 @@
 package es.tfm.fsa.infraestructure.postgres.entities;
 
 import es.tfm.fsa.domain.model.Series;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,7 @@ public class SeriesEntity {
     private String title;
     private String description;
     private LocalDate releaseDate;
+    private int seasons;
     private LocalDate endingDate;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -39,7 +43,11 @@ public class SeriesEntity {
         BeanUtils.copyProperties(series, this);
         this.genreEntityList = new ArrayList<>();
     }
-
+    public SeriesEntity(SeriesFormDto seriesFormDto) {
+        BeanUtils.copyProperties(seriesFormDto, this);
+        this.poster = Base64.getDecoder().decode(seriesFormDto.getPoster().split(",")[1]);
+        this.genreEntityList = new ArrayList<>();
+    }
     public void add(GenreEntity genreEntity) {
         this.genreEntityList.add(genreEntity);
     }

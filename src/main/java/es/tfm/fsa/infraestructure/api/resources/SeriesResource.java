@@ -1,17 +1,20 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
+import es.tfm.fsa.domain.model.Film;
+import es.tfm.fsa.domain.model.Series;
 import es.tfm.fsa.domain.services.SeriesService;
 import es.tfm.fsa.infraestructure.api.Rest;
+import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import es.tfm.fsa.infraestructure.api.dtos.SeriesSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Rest
@@ -35,6 +38,12 @@ public class SeriesResource {
             @RequestParam(required = false) String title,
             @RequestParam(required = false) List<String> genreList) {
         return this.seriesService.findByTitleAndGenreListNullSafe(title,genreList).map(SeriesSearchDto::new);
+    }
+    @PreAuthorize("permitAll()")
+    @PostMapping(produces = {"application/json"})
+    public Optional<Series> create(@Valid @RequestBody SeriesFormDto seriesFormDto) {
+        seriesFormDto.doDefault();
+        return this.seriesService.create(seriesFormDto);
     }
     @PreAuthorize("permitAll()")
     @GetMapping(PICTURES+ID)

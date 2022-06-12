@@ -1,8 +1,11 @@
 package es.tfm.fsa.infraestructure.postgres.persistence;
 
+import es.tfm.fsa.domain.exceptions.NotFoundException;
 import es.tfm.fsa.domain.model.Series;
 import es.tfm.fsa.domain.persistence.SeriesPersistence;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
+import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.SeriesDao;
 import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
 import es.tfm.fsa.infraestructure.postgres.entities.SeriesEntity;
@@ -15,14 +18,25 @@ import java.util.stream.Stream;
 @Repository
 public class SeriesPersistencePostgres implements SeriesPersistence {
     private SeriesDao seriesDao;
+    private GenreDao genreDao;
 
     @Autowired
-    public SeriesPersistencePostgres(SeriesDao seriesDao) {
+    public SeriesPersistencePostgres(SeriesDao seriesDao, GenreDao genreDao) {
         this.seriesDao = seriesDao;
+        this.genreDao = genreDao;
     }
     @Override
-    public Optional<Series> create(Series series) {
-        return Optional.empty();
+    public Optional<Series> create(SeriesFormDto seriesFormDto) {
+        SeriesEntity seriesEntity = new SeriesEntity(seriesFormDto);
+        seriesFormDto.getGenreList().stream().
+                map(name -> {
+                    if (this.genreDao.findByName(name).isEmpty()) {
+                        throw new NotFoundException("Non existent genre name: " + name);
+                    }
+                    return this.genreDao.findByName(name).get();
+                }).
+                forEach(seriesEntity::add);
+        return Optional.of(this.seriesDao.save(seriesEntity).toSeries());
     }
 
     @Override
