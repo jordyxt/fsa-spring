@@ -58,7 +58,7 @@ public class FilmResourceIT {
                 .expectBody(Film.class)
                 .value(Assertions::assertNotNull)
                 .value(returnFilm ->{
-                    System.out.println(">>>>> Test:: returnGenre:" + returnFilm);
+                    System.out.println(">>>>> Test:: returnFilm:" + returnFilm);
                     assertEquals("filmRTest1", returnFilm.getTitle());
                     assertEquals("description", returnFilm.getDescription());
                 });

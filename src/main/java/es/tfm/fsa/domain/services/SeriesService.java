@@ -3,6 +3,7 @@ package es.tfm.fsa.domain.services;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.model.Series;
 import es.tfm.fsa.domain.persistence.SeriesPersistence;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,8 @@ public class SeriesService {
     public SeriesService(SeriesPersistence seriesPersistence){
         this.seriesPersistence = seriesPersistence;
     }
-    public Optional<Series> create(Series series) {
-        return this.seriesPersistence.create(series);
+    public Optional<Series> create(SeriesFormDto seriesFormDto) {
+        return this.seriesPersistence.create(seriesFormDto);
     }
     @Transactional
     public Optional<Series> read(int id) {
