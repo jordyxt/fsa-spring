@@ -48,7 +48,7 @@ public class SeriesResourceIT {
     }
     @Test
     void testCreate() {
-        SeriesFormDto seriesFormDto = SeriesFormDto.builder().title("seriesRTest1").description("description").
+        SeriesFormDto seriesFormDto = SeriesFormDto.BBuilder().title("seriesRTest1").description("description").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build();
         this.restClientTestService.loginAdmin(webTestClient)
@@ -58,10 +58,10 @@ public class SeriesResourceIT {
                 .expectStatus().isOk()
                 .expectBody(Series.class)
                 .value(Assertions::assertNotNull)
-                .value(returnFilm ->{
-                    System.out.println(">>>>> Test:: returnSeries:" + returnFilm);
-                    assertEquals("seriesRTest1", returnFilm.getTitle());
-                    assertEquals("description", returnFilm.getDescription());
+                .value(returnSeries ->{
+                    System.out.println(">>>>> Test:: returnSeries:" + returnSeries);
+                    assertEquals("seriesRTest1", returnSeries.getTitle());
+                    assertEquals("description", returnSeries.getDescription());
                 });
     }
 }

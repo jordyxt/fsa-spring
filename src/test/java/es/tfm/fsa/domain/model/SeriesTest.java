@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SeriesTest {
     @Test
     void testDescriptionSeries() {
-        Film x = Film.builder().title("testSeries").description("d1").build();
+        Series x = Series.BBuilder().title("testSeries").description("d1").build();
         assertEquals("testSeries", x.getTitle());
         assertEquals("d1", x.getDescription());
     }

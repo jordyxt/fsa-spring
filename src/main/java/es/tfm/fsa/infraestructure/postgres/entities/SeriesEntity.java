@@ -1,6 +1,7 @@
 package es.tfm.fsa.infraestructure.postgres.entities;
 
 import es.tfm.fsa.domain.model.Series;
+import es.tfm.fsa.domain.model.VideoProductionType;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import lombok.*;
@@ -15,43 +16,30 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "series")
-public class SeriesEntity {
-    @Id
-    @GeneratedValue
-    private int id;
-    @NonNull
-    private String title;
-    private String description;
-    private LocalDate releaseDate;
+public class SeriesEntity extends VideoProductionEntity {
     private Integer seasons;
     private LocalDate endingDate;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "series_genre",
-            joinColumns = @JoinColumn(name = "series_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<GenreEntity> genreEntityList;
-    @Lob
-    private byte[] poster;
-
     public SeriesEntity(Series series) {
-        BeanUtils.copyProperties(series, this);
-        this.genreEntityList = new ArrayList<>();
+        super(series);
+        this.seasons = series.getSeasons();
+        this.endingDate = series.getEndingDate();
     }
     public SeriesEntity(SeriesFormDto seriesFormDto) {
-        BeanUtils.copyProperties(seriesFormDto, this);
-        this.poster = seriesFormDto.getPoster()!=null?
-                Base64.getDecoder().decode(seriesFormDto.getPoster().split(",")[1]):null;
-        this.genreEntityList = new ArrayList<>();
-    }
-    public void add(GenreEntity genreEntity) {
-        this.genreEntityList.add(genreEntity);
-    }
+        super(seriesFormDto);
+        this.seasons = seriesFormDto.getSeasons();
+        this.endingDate = seriesFormDto.getEndingDate();
 
+    }
+    @Builder(builderMethodName = "BBuilder")
+    public SeriesEntity(int id, String title, String description,
+                      LocalDate releaseDate, List<GenreEntity> genreEntityList,
+                      byte[] poster, String trailer, Integer seasons, LocalDate endingDate) {
+        super(id,title,description,releaseDate,genreEntityList,poster,trailer, VideoProductionType.SERIES);
+        this.seasons = seasons;
+        this.endingDate = endingDate;
+    }
     public Series toSeries() {
         Series series = new Series();
         BeanUtils.copyProperties(this, series);

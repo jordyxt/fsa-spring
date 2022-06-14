@@ -34,7 +34,7 @@ public class FilmPersistencePostgresIT {
     void testCreate() {
         StepVerifier
                 .create(Mono.justOrEmpty(this.filmPersistencePostgres.create(
-                        FilmFormDto.builder().title("filmTitleP1").description("descriptionP").
+                        FilmFormDto.BBuilder().title("filmTitleP1").description("descriptionP").
                                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                                 genreList(Arrays.asList("action","adventure","sci-fi")).build())))
                 .expectNextMatches(film -> {

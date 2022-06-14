@@ -2,6 +2,7 @@ package es.tfm.fsa.infraestructure.postgres.entities;
 
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.domain.model.VideoProductionType;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -16,42 +17,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
-@Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "film")
-public class FilmEntity {
-    @Id
-    @GeneratedValue
-    private int id;
-    @NonNull
-    private String title;
-    private String description;
-    private LocalDate releaseDate;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "film_genre",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<GenreEntity> genreEntityList;
-    @Lob
-    private byte[] poster;
-    private String trailer;
+public class FilmEntity extends VideoProductionEntity {
 
     public FilmEntity(Film film) {
-        BeanUtils.copyProperties(film, this);
-        this.genreEntityList = new ArrayList<>();
+        super(film);
     }
     public FilmEntity(FilmFormDto filmFormDto) {
-        BeanUtils.copyProperties(filmFormDto, this);
-        this.poster = filmFormDto.getPoster()!=null?
-                Base64.getDecoder().decode(filmFormDto.getPoster().split(",")[1]):null;
-        this.genreEntityList = new ArrayList<>();
+        super(filmFormDto);
     }
-
-    public void add(GenreEntity genreEntity) {
-        this.genreEntityList.add(genreEntity);
+    @Builder(builderMethodName = "BBuilder")
+    public FilmEntity(int id, String title, String description,
+                      LocalDate releaseDate, List<GenreEntity> genreEntityList,
+                      byte[] poster, String trailer) {
+        super(id,title,description,releaseDate,genreEntityList,poster,trailer, VideoProductionType.FILM);
     }
 
     public Film toFilm() {

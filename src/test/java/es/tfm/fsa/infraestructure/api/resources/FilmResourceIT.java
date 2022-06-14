@@ -47,7 +47,7 @@ public class FilmResourceIT {
     }
     @Test
     void testCreate() {
-        FilmFormDto filmFormDto = FilmFormDto.builder().title("filmRTest1").description("description").
+        FilmFormDto filmFormDto = FilmFormDto.BBuilder().title("filmRTest1").description("description").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build();
         this.restClientTestService.loginAdmin(webTestClient)

@@ -35,7 +35,7 @@ public class FilmServiceIT {
     }
     @Test
     void testCreate() {
-        this.filmService.create(FilmFormDto.builder().title("testFilmS1").description("d1").
+        this.filmService.create(FilmFormDto.BBuilder().title("testFilmS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build());
         Optional<Film> film = this.filmService.findByTitleAndGenreListNullSafe("testFilmS1",null).findFirst();
