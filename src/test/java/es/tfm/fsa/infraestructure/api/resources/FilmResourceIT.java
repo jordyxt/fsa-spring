@@ -40,8 +40,10 @@ public class FilmResourceIT {
                 .value(Assertions::assertNotNull)
                 .value(films -> {
                     assertTrue(films.stream()
-                            .anyMatch(film ->
-                                    film.getTitle().equals("Jurassic World Dominion")
+                            .anyMatch(film ->{
+                                    System.out.println(">>>>> Test:: returnFilm:" + film);
+                                    return film.getTitle().equals("Jurassic World Dominion");
+                        }
                             ));
                 });
     }

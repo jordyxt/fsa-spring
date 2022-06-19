@@ -31,5 +31,7 @@ public class VideoProduction {
     @NotBlank
     private String trailer;
     @NotBlank
+    private List<Rating> ratingList;
+    @NotBlank
     private VideoProductionType videoProductionType;
 }

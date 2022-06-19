@@ -1,14 +1,8 @@
 package es.tfm.fsa.infraestructure.postgres.daos;
 
 import es.tfm.fsa.domain.model.Role;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.SeriesDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.UserDao;
-import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.GenreEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.SeriesEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.UserEntity;
+import es.tfm.fsa.infraestructure.postgres.daos.synchronous.*;
+import es.tfm.fsa.infraestructure.postgres.entities.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -33,15 +27,17 @@ public class DatabaseSeederDev {
     private DatabaseStarting databaseStarting;
     private UserDao userDao;
     private GenreDao genreDao;
+    private RatingDao ratingDao;
     private FilmDao filmDao;
     private SeriesDao seriesDao;
     @Autowired
-    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, FilmDao filmDao,
+    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, RatingDao ratingDao, FilmDao filmDao,
                              SeriesDao seriesDao, DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
         this.filmDao = filmDao;
         this.seriesDao = seriesDao;
+        this.ratingDao = ratingDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -52,6 +48,7 @@ public class DatabaseSeederDev {
 
     public void deleteAllAndInitialize() {
         this.userDao.deleteAll();
+        this.ratingDao.deleteAll();
         this.filmDao.deleteAll();
         this.seriesDao.deleteAll();
         this.genreDao.deleteAll();
@@ -124,6 +121,13 @@ public class DatabaseSeederDev {
         }
         this.filmDao.saveAll(Arrays.asList(films));
         LogManager.getLogger(this.getClass()).warn("        ------- films");
+        RatingEntity[] rates = {
+                RatingEntity.builder().rating(8).userEntity(users[0]).videoProductionEntity(films[0]).build(),
+                RatingEntity.builder().rating(7).userEntity(users[0]).videoProductionEntity(films[0]).build(),
+                RatingEntity.builder().rating(7).userEntity(users[1]).videoProductionEntity(films[0]).build()
+        };
+        this.ratingDao.saveAll(Arrays.asList(rates));
+        LogManager.getLogger(this.getClass()).warn("        ------- ratings");
         SeriesEntity[] series ={};
         try {
             series = new SeriesEntity[]{

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
+@ToString(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -6,24 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class Rating {
     @NotBlank
-    private String username;
+    private Integer rating;
     @NotBlank
-    private String email;
-    private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    private LocalDateTime registrationDate;
-    private Boolean active;
+    private User user;
+    @NotBlank
+    private VideoProduction videoProduction;
 }
