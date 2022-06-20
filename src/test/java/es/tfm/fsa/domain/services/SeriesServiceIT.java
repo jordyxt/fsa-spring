@@ -35,7 +35,7 @@ public class SeriesServiceIT {
     }
     @Test
     void testCreate() {
-        this.seriesService.create(SeriesFormDto.builder().title("testSeriesS1").description("d1").
+        this.seriesService.create(SeriesFormDto.BBuilder().title("testSeriesS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build());
         Optional<Series> series = this.seriesService.findByTitleAndGenreListNullSafe("testSeriesS1",null).findFirst();

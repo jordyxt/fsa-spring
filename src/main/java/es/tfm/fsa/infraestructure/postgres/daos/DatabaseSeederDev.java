@@ -1,14 +1,8 @@
 package es.tfm.fsa.infraestructure.postgres.daos;
 
 import es.tfm.fsa.domain.model.Role;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.SeriesDao;
-import es.tfm.fsa.infraestructure.postgres.daos.synchronous.UserDao;
-import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.GenreEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.SeriesEntity;
-import es.tfm.fsa.infraestructure.postgres.entities.UserEntity;
+import es.tfm.fsa.infraestructure.postgres.daos.synchronous.*;
+import es.tfm.fsa.infraestructure.postgres.entities.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -33,15 +27,17 @@ public class DatabaseSeederDev {
     private DatabaseStarting databaseStarting;
     private UserDao userDao;
     private GenreDao genreDao;
+    private RatingDao ratingDao;
     private FilmDao filmDao;
     private SeriesDao seriesDao;
     @Autowired
-    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, FilmDao filmDao,
+    public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, RatingDao ratingDao, FilmDao filmDao,
                              SeriesDao seriesDao, DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
         this.filmDao = filmDao;
         this.seriesDao = seriesDao;
+        this.ratingDao = ratingDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -52,6 +48,7 @@ public class DatabaseSeederDev {
 
     public void deleteAllAndInitialize() {
         this.userDao.deleteAll();
+        this.ratingDao.deleteAll();
         this.filmDao.deleteAll();
         this.seriesDao.deleteAll();
         this.genreDao.deleteAll();
@@ -89,7 +86,7 @@ public class DatabaseSeederDev {
         FilmEntity[] films ={};
         try {
             films = new FilmEntity[]{
-                    FilmEntity.builder().title("Jurassic World Dominion")
+                    FilmEntity.BBuilder().title("Jurassic World Dominion")
                             .description("Four years after the destruction of Isla Nublar, " +
                                     "dinosaurs now live--and hunt--alongside humans all over the world.").
                             releaseDate(LocalDate.of(2022, Month.JUNE, 10)).
@@ -99,7 +96,7 @@ public class DatabaseSeederDev {
                                             "jurassic_world_dominion/poster/01.jpg"))).
                             genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[2], genres[3]}))
                             .build(),
-                    FilmEntity.builder().title("Fantastic Beasts: The Secrets of Dumbledore")
+                    FilmEntity.BBuilder().title("Fantastic Beasts: The Secrets of Dumbledore")
                             .description("Albus Dumbledore assigns Newt and his allies with a mission related to" +
                                     " the rising power of Grindelwald.").
                             releaseDate(LocalDate.of(2022, Month.APRIL, 17)).
@@ -108,7 +105,7 @@ public class DatabaseSeederDev {
                                             "jrgifaYeUtTnaH7NF5Drkgjg2MB.jpg"))).
                             genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[2], genres[7]}))
                             .build(),
-                    FilmEntity.builder().title("The Lost City")
+                    FilmEntity.BBuilder().title("The Lost City")
                             .description("A reclusive romance novelist on a book tour with her cover model gets" +
                                     " swept up in a kidnapping attempt that lands them both in a cutthroat" +
                                     " jungle adventure.").
@@ -124,10 +121,17 @@ public class DatabaseSeederDev {
         }
         this.filmDao.saveAll(Arrays.asList(films));
         LogManager.getLogger(this.getClass()).warn("        ------- films");
+        RatingEntity[] rates = {
+                RatingEntity.builder().rating(8).userEntity(users[0]).videoProductionEntity(films[0]).build(),
+                RatingEntity.builder().rating(7).userEntity(users[1]).videoProductionEntity(films[0]).build(),
+
+        };
+        this.ratingDao.saveAll(Arrays.asList(rates));
+        LogManager.getLogger(this.getClass()).warn("        ------- ratings");
         SeriesEntity[] series ={};
         try {
             series = new SeriesEntity[]{
-                    SeriesEntity.builder().title("How I Met Your Mother")
+                    SeriesEntity.BBuilder().title("How I Met Your Mother")
                             .description("A father recounts to his children - through a series of flashbacks - the "+
                                     "journey he and his four best friends took leading up to him meeting their mother.").
                             releaseDate(LocalDate.of(2005, Month.SEPTEMBER, 19)).
@@ -138,7 +142,7 @@ public class DatabaseSeederDev {
                                             "MV5BNjg1MDQ5MjQ2N15BMl5BanBnXkFtZTYwNjI5NjA3._V1_FMjpg_UX1000_.jpg"))).
                             genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[5]}))
                             .build(),
-                    SeriesEntity.builder().title("Suits")
+                    SeriesEntity.BBuilder().title("Suits")
                             .description("On the run from a drug deal gone bad, brilliant college dropout Mike Ross "+
                                     "finds himself working with Harvey Specter, one of New York City's best lawyers.").
                             releaseDate(LocalDate.of(2011, Month.JUNE, 23)).
@@ -148,7 +152,7 @@ public class DatabaseSeederDev {
                                     new URL("https://es.web.img2.acsta.net/pictures/14/03/28/10/18/433386.jpg"))).
                             genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[4]}))
                             .build(),
-                    SeriesEntity.builder().title("Money Heist")
+                    SeriesEntity.BBuilder().title("Money Heist")
                             .description("An unusual group of robbers attempt to carry out the most perfect robbery "+
                                     "in Spanish history - stealing 2.4 billion euros from the Royal Mint of Spain.").
                             releaseDate(LocalDate.of(2017, Month.MAY, 2)).

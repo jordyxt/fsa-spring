@@ -1,33 +1,20 @@
 package es.tfm.fsa.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@Builder
+@ToString(callSuper=true)
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Film {
-    @NotBlank
-    private int id;
-    @NotBlank
-    private String title;
-    @NotBlank
-    private String description;
-    @NotBlank
-    private LocalDate releaseDate;
-    @NotBlank
-    private List<Genre> genreList;
-    @NotBlank
-    private byte[] poster;
-    @NotBlank
-    private String trailer;
+public class Film extends VideoProduction {
+    @Builder(builderMethodName = "BBuilder")
+    public Film(int id, String title, String description,
+                LocalDate releaseDate, List<Genre> genreList,
+                byte[] poster, String trailer) {
+        super(id, title, description, releaseDate, genreList, poster, trailer, VideoProductionType.FILM);
+    }
 }

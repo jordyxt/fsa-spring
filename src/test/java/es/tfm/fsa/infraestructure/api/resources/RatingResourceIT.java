@@ -2,9 +2,11 @@ package es.tfm.fsa.infraestructure.api.resources;
 
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.domain.model.Rating;
 import es.tfm.fsa.infraestructure.api.RestClientTestService;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
 import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
+import es.tfm.fsa.infraestructure.api.dtos.RatingFormDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,39 +19,19 @@ import java.util.Arrays;
 
 import static es.tfm.fsa.infraestructure.api.resources.FilmResource.FILMS;
 import static es.tfm.fsa.infraestructure.api.resources.FilmResource.SEARCH;
-import static es.tfm.fsa.infraestructure.api.resources.GenreResource.GENRES;
+import static es.tfm.fsa.infraestructure.api.resources.RatingResource.RATINGS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @RestTestConfig
-public class FilmResourceIT {
+public class RatingResourceIT {
     @Autowired
     private WebTestClient webTestClient;
     @Autowired
     private RestClientTestService restClientTestService;
     @Test
-    void testSearch() {
-        this.restClientTestService.loginAdmin(webTestClient)
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(FILMS + SEARCH)
-                        .queryParam("genreList",  "action,adventure,sci-fi")
-                        .build())
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(FilmSearchDto.class)
-                .value(Assertions::assertNotNull)
-                .value(films -> {
-                    assertTrue(films.stream()
-                            .anyMatch(film ->{
-                                    System.out.println(">>>>> Test:: returnFilm:" + film);
-                                    return film.getTitle().equals("Jurassic World Dominion");
-                        }
-                            ));
-                });
-    }
-    @Test
     void testCreate() {
-        FilmFormDto filmFormDto = FilmFormDto.BBuilder().title("filmRTest1").description("description").
+        FilmFormDto filmFormDto = FilmFormDto.BBuilder().title("rateRTest1").description("description").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build();
         this.restClientTestService.loginAdmin(webTestClient)
@@ -60,9 +42,20 @@ public class FilmResourceIT {
                 .expectBody(Film.class)
                 .value(Assertions::assertNotNull)
                 .value(returnFilm ->{
-                    System.out.println(">>>>> Test:: returnFilm:" + returnFilm);
-                    assertEquals("filmRTest1", returnFilm.getTitle());
-                    assertEquals("description", returnFilm.getDescription());
+                    RatingFormDto ratingFormDto = RatingFormDto.builder().rating(9).
+                            videoProductionId(returnFilm.getId()).build();
+                    this.restClientTestService.loginBasic(webTestClient)
+                            .post()
+                            .uri(RATINGS).body(Mono.just(ratingFormDto),RatingFormDto.class)
+                            .exchange()
+                            .expectStatus().isOk()
+                            .expectBody(Integer.class)
+                            .value(Assertions::assertNotNull)
+                            .value(returnRating ->{
+                                System.out.println(">>>>> Test:: returnRating:" + returnRating);
+                                assertEquals(9, returnRating);
+                            });
                 });
+
     }
 }
