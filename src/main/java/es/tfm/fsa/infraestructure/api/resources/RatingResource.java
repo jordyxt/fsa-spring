@@ -29,14 +29,14 @@ public class RatingResource {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping(produces = {"application/json"})
-    public Optional<Rating> create(@RequestHeader("Authorization") String token, @Valid @RequestBody RatingFormDto ratingFormDto) {
+    public Optional<Integer> create(@RequestHeader("Authorization") String token, @Valid @RequestBody RatingFormDto ratingFormDto) {
         String extractedToken = this.jwtService.extractBearerToken(token);
         ratingFormDto.setUsername(this.jwtService.user(extractedToken));
         return this.ratingService.create(ratingFormDto);
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping(ID)
-    public Optional<Rating> read(@RequestHeader("Authorization") String token, @PathVariable Integer videoProductionId) {
+    public Optional<Integer> read(@RequestHeader("Authorization") String token, @PathVariable Integer videoProductionId) {
         String extractedToken = this.jwtService.extractBearerToken(token);
         return this.ratingService.read(this.jwtService.user(extractedToken), videoProductionId);
     }

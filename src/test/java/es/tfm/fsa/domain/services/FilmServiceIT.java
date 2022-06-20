@@ -4,6 +4,7 @@ import es.tfm.fsa.TestConfig;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,10 +39,10 @@ public class FilmServiceIT {
         this.filmService.create(FilmFormDto.BBuilder().title("testFilmS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build());
-        Optional<Film> film = this.filmService.findByTitleAndGenreListNullSafe("testFilmS1",null).findFirst();
-        assertTrue(film.isPresent());
-        assertThat(film.get().getTitle(), is("testFilmS1"));
-        assertThat(film.get().getGenreList().stream().map(Genre::getName).collect(Collectors.toList()),
+        Optional<FilmSearchDto> filmSearchDto = this.filmService.findByTitleAndGenreListNullSafe("testFilmS1",null).findFirst();
+        assertTrue(filmSearchDto.isPresent());
+        assertThat(filmSearchDto.get().getTitle(), is("testFilmS1"));
+        assertThat(filmSearchDto.get().getGenreList().stream().collect(Collectors.toList()),
                 is(Arrays.asList("action","adventure","sci-fi")));
     }
 }

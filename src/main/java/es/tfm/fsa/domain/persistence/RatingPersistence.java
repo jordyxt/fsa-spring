@@ -9,11 +9,11 @@ import java.util.stream.Stream;
 
 @Repository
 public interface RatingPersistence {
-    Optional<Rating> create(RatingFormDto ratingFormDto);
+    Optional<Integer> create(RatingFormDto ratingFormDto);
 
     Stream<Rating> findByUsername(String username);
 
-    Stream<Rating> findByVideoProductionId(int videoProductionID);
+    Stream<Rating> findByVideoProductionId(Integer videoProductionId);
 
-    Optional<Rating> read(String username, Integer videoProductionId);
+    Optional<Integer> read(String username, Integer videoProductionId);
 }

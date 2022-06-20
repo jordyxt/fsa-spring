@@ -123,8 +123,8 @@ public class DatabaseSeederDev {
         LogManager.getLogger(this.getClass()).warn("        ------- films");
         RatingEntity[] rates = {
                 RatingEntity.builder().rating(8).userEntity(users[0]).videoProductionEntity(films[0]).build(),
-                RatingEntity.builder().rating(7).userEntity(users[0]).videoProductionEntity(films[0]).build(),
-                RatingEntity.builder().rating(7).userEntity(users[1]).videoProductionEntity(films[0]).build()
+                RatingEntity.builder().rating(7).userEntity(users[1]).videoProductionEntity(films[0]).build(),
+
         };
         this.ratingDao.saveAll(Arrays.asList(rates));
         LogManager.getLogger(this.getClass()).warn("        ------- ratings");

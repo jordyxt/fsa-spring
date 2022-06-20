@@ -34,11 +34,12 @@ public class RatingEntity {
         this.rating = rating;
     }
     public RatingEntity(RatingFormDto ratingFormDto){
-        BeanUtils.copyProperties(rating, this);
+        this.rating = ratingFormDto.getRating();
     }
     public Rating toRating() {
         Rating rating = new Rating();
-        BeanUtils.copyProperties(this, rating);
+        rating.setRating(this.rating);
+        rating.setUser(this.userEntity.toUser()); 
         return rating;
     }
 }

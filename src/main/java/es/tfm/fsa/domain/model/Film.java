@@ -14,7 +14,7 @@ public class Film extends VideoProduction {
     @Builder(builderMethodName = "BBuilder")
     public Film(int id, String title, String description,
                 LocalDate releaseDate, List<Genre> genreList,
-                byte[] poster, String trailer, List<Rating> ratingList) {
-        super(id, title, description, releaseDate, genreList, poster, trailer, ratingList, VideoProductionType.FILM);
+                byte[] poster, String trailer) {
+        super(id, title, description, releaseDate, genreList, poster, trailer, VideoProductionType.FILM);
     }
 }

@@ -40,7 +40,7 @@ public class FilmResource {
     public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) List<String> genreList) {
-        return this.filmService.findByTitleAndGenreListNullSafe(title,genreList).map(FilmSearchDto::new);
+        return this.filmService.findByTitleAndGenreListNullSafe(title,genreList);
     }
     @PreAuthorize("permitAll()")
     @GetMapping(PICTURES+ID)

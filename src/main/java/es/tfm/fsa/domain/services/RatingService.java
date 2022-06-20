@@ -15,11 +15,11 @@ public class RatingService {
     public RatingService(RatingPersistence ratingPersistence){
         this.ratingPersistence = ratingPersistence;
     }
-    public Optional<Rating> create(RatingFormDto ratingFormDto) {
+    public Optional<Integer> create(RatingFormDto ratingFormDto) {
         return this.ratingPersistence.create(ratingFormDto);
     }
 
-    public Optional<Rating> read(String username, Integer videoProductionId) {
+    public Optional<Integer> read(String username, Integer videoProductionId) {
         return this.ratingPersistence.read(username, videoProductionId);
     }
 }

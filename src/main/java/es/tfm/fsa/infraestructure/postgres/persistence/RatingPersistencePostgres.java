@@ -27,14 +27,13 @@ public class RatingPersistencePostgres implements RatingPersistence {
         this.videoProductionDao = videoProductionDao;
     }
     @Override
-    public Optional<Rating> create(RatingFormDto ratingFormDto) {
-        RatingEntity ratingEntity = new RatingEntity(ratingFormDto);
+    public Optional<Integer> create(RatingFormDto ratingFormDto) {
         UserEntity userEntity =this.userDao.findByUsername(ratingFormDto.getUsername()).get();
-        ratingEntity.setUserEntity(userEntity);
         VideoProductionEntity videoProductionEntity = this.videoProductionDao.findById(ratingFormDto.getVideoProductionId()).get();
-        ratingEntity.setVideoProductionEntity(videoProductionEntity);
+        RatingEntity ratingEntity = RatingEntity.builder().rating(ratingFormDto.getRating()).
+                userEntity(userEntity).videoProductionEntity(videoProductionEntity).build();
         this.ratingDao.save(ratingEntity);
-        return Optional.of(ratingEntity.toRating());
+        return Optional.of(ratingEntity.getRating());
     }
 
     @Override
@@ -44,14 +43,14 @@ public class RatingPersistencePostgres implements RatingPersistence {
     }
 
     @Override
-    public Stream<Rating> findByVideoProductionId(int videoProductionId) {
+    public Stream<Rating> findByVideoProductionId(Integer videoProductionId) {
         return this.ratingDao.findByVideoProductionEntityId(videoProductionId).stream().
                 map(RatingEntity::toRating);
     }
 
     @Override
-    public Optional<Rating> read(String username, Integer videoProductionId) {
+    public Optional<Integer> read(String username, Integer videoProductionId) {
         return this.ratingDao.findByUserEntityUsernameAndVideoProductionEntityId(username, videoProductionId).
-                map(RatingEntity::toRating);
+                map(RatingEntity::getRating);
     }
 }

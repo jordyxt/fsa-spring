@@ -20,8 +20,8 @@ public class Series extends VideoProduction {
     @Builder(builderMethodName = "BBuilder")
     public Series(int id, String title, String description,
                   LocalDate releaseDate, List<Genre> genreList,
-                  byte[] poster, String trailer, List<Rating> ratingList, Integer seasons, LocalDate endingDate) {
-        super(id, title, description, releaseDate, genreList, poster, trailer, ratingList, VideoProductionType.SERIES);
+                  byte[] poster, String trailer, Integer seasons, LocalDate endingDate) {
+        super(id, title, description, releaseDate, genreList, poster, trailer, VideoProductionType.SERIES);
         this.seasons = seasons;
         this.endingDate = endingDate;
     }

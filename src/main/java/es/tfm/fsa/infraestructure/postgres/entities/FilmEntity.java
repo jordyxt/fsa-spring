@@ -31,8 +31,8 @@ public class FilmEntity extends VideoProductionEntity {
     @Builder(builderMethodName = "BBuilder")
     public FilmEntity(int id, String title, String description,
                       LocalDate releaseDate, List<GenreEntity> genreEntityList,
-                      byte[] poster, String trailer, List<RatingEntity> ratingEntityList) {
-        super(id, title, description, releaseDate, genreEntityList, poster, trailer, ratingEntityList, VideoProductionType.FILM);
+                      byte[] poster, String trailer) {
+        super(id, title, description, releaseDate, genreEntityList, poster, trailer, VideoProductionType.FILM);
     }
 
     public Film toFilm() {
@@ -40,9 +40,6 @@ public class FilmEntity extends VideoProductionEntity {
         BeanUtils.copyProperties(this, film);
         film.setGenreList(this.getGenreEntityList().stream()
                 .map(GenreEntity::toGenre)
-                .collect(Collectors.toList()));
-        film.setRatingList(this.getRatingEntityList().stream()
-                .map(RatingEntity::toRating)
                 .collect(Collectors.toList()));
         return film;
     }
