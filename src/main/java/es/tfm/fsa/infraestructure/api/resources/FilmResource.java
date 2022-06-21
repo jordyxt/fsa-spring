@@ -1,10 +1,10 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
 import es.tfm.fsa.domain.model.Film;
-import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.services.FilmService;
 import es.tfm.fsa.infraestructure.api.Rest;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.FilmReviewDto;
 import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -48,13 +48,13 @@ public class FilmResource {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         headers.setContentType(MediaType.valueOf(MediaType.IMAGE_JPEG_VALUE));
-        byte[] media = this.filmService.read(id).get().getPoster();
+        byte[] media = this.filmService.findById(id).get().getPoster();
         ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
         return responseEntity;
     }
     @PreAuthorize("permitAll()")
     @GetMapping(ID)
-    public Optional<Film> read(@PathVariable Integer id) {
+    public Optional<FilmReviewDto> read(@PathVariable Integer id) {
         return this.filmService.read(id);
     }
 }

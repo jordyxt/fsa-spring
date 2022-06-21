@@ -3,6 +3,8 @@ package es.tfm.fsa.infraestructure.postgres.entities;
 import es.tfm.fsa.domain.model.Rating;
 import es.tfm.fsa.infraestructure.api.dtos.RatingFormDto;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -18,10 +20,12 @@ public class RatingEntity {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name="user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity userEntity;
     @ManyToOne
     @MapsId("videProductionId")
     @JoinColumn(name="video_production_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VideoProductionEntity videoProductionEntity;
     @NonNull
     private Integer rating;
