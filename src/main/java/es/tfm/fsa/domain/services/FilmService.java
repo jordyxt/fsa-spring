@@ -7,11 +7,14 @@ import es.tfm.fsa.domain.persistence.FilmPersistence;
 import es.tfm.fsa.domain.persistence.GenrePersistence;
 import es.tfm.fsa.domain.persistence.RatingPersistence;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.FilmReviewDto;
 import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +32,19 @@ public class FilmService {
     public Optional<Film> create(FilmFormDto filmFormDto) {
         return this.filmPersistence.create(filmFormDto);
     }
-    @Transactional
-    public Optional<Film> read(int id) {
+
+    public Optional<Film> findById(int id) {
         return this.filmPersistence.findById(id);
     }
-    @Transactional
+
+    public Optional<FilmReviewDto> read(int id) {
+        return this.filmPersistence.findById(id).map(FilmReviewDto::new).map(filmReviewDto -> {
+            filmReviewDto.setRating(BigDecimal.valueOf(this.ratingPersistence.findByVideoProductionId(filmReviewDto.getId()).
+                    mapToDouble(Rating::getRating).average().orElse(Double.NaN)).setScale(2, RoundingMode.HALF_UP));
+            return filmReviewDto;
+        });
+    }
+
     public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(String title, List<String> genres) {
         return this.filmPersistence.findByTitleNullSafe(title).filter(film ->
                 (genres == null || genres.isEmpty() || film.getGenreList().stream().map(Genre::getName).

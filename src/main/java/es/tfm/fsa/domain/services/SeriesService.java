@@ -22,11 +22,11 @@ public class SeriesService {
     public Optional<Series> create(SeriesFormDto seriesFormDto) {
         return this.seriesPersistence.create(seriesFormDto);
     }
-    @Transactional
+
     public Optional<Series> read(int id) {
         return this.seriesPersistence.findById(id);
     }
-    @Transactional
+
     public Stream<Series> findByTitleAndGenreListNullSafe(String title, List<String> genres) {
         return this.seriesPersistence.findByTitleNullSafe(title).filter(series ->
                 (genres == null || genres.isEmpty() || series.getGenreList().stream().map(Genre::getName).
