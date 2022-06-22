@@ -24,7 +24,7 @@ public class SeriesSearchDto extends VideoProductionSearchDto {
     @Builder(builderMethodName = "BBuilder")
     public SeriesSearchDto(int id, String title, String description,
                          String releaseDate, List<String> genreList, String trailer, Double rating, String endingYear) {
-        super(id, title, description, releaseDate, genreList, trailer, rating, VideoProductionType.FILM);
+        super(id, title, description, releaseDate, genreList, trailer, rating, VideoProductionType.SERIES);
         this.endingYear = endingYear;
     }
 }

@@ -40,7 +40,7 @@ public class FilmService {
     public Optional<FilmReviewDto> read(int id) {
         return this.filmPersistence.findById(id).map(FilmReviewDto::new).map(filmReviewDto -> {
             filmReviewDto.setRating(BigDecimal.valueOf(this.ratingPersistence.findByVideoProductionId(filmReviewDto.getId()).
-                    mapToDouble(Rating::getRating).average().orElse(Double.NaN)).setScale(2, RoundingMode.HALF_UP));
+                    mapToDouble(Rating::getRating).average().orElse(0.0)).setScale(2, RoundingMode.HALF_UP));
             return filmReviewDto;
         });
     }
@@ -50,7 +50,7 @@ public class FilmService {
                 (genres == null || genres.isEmpty() || film.getGenreList().stream().map(Genre::getName).
                         collect(Collectors.toList()).containsAll(genres))).map(FilmSearchDto::new).map(filmSearchDto -> {
             filmSearchDto.setRating(this.ratingPersistence.findByVideoProductionId(filmSearchDto.getId()).
-                    mapToDouble(Rating::getRating).average().orElse(Double.NaN));
+                    mapToDouble(Rating::getRating).average().orElse(0.0));
             return filmSearchDto;
         });
     }
