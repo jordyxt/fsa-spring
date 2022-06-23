@@ -27,7 +27,7 @@ public class VideoProductionWorkerService {
         return this.videoProductionWorkerPersistence.findById(id);
     }
 
-    public Stream<VideoProductionWorker> findByNameAndDescriptionContainingNullSafe(String name) {
+    public Stream<VideoProductionWorker> findByNameContainingNullSafe(String name) {
         return this.videoProductionWorkerPersistence.findByNameContainingNullSafe(name);
     }
     public Optional<VideoProductionWorker> update(Integer id, VideoProductionWorker videoProductionWorker) {

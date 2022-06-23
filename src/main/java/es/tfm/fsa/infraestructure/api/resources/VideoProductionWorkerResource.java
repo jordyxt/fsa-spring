@@ -34,7 +34,7 @@ public class VideoProductionWorkerResource {
     @GetMapping(SEARCH)
     public Stream<VideoProductionWorker> findByNameAndDescriptionContainingNullSafe(
             @RequestParam(required = false) String name) {
-        return this.videoProductionWorkerService.findByNameAndDescriptionContainingNullSafe(name)
+        return this.videoProductionWorkerService.findByNameContainingNullSafe(name)
                 .map(VideoProductionWorker::ofNameDescription);
     }
     @PutMapping(ID)

@@ -22,7 +22,7 @@ public class VideoProductionWorker {
     private String name;
     private String description;
     @Enumerated(EnumType.STRING)
-    private List<VideoProductionWorkerRole> videoProductionWorkerRole;
+    private List<VideoProductionWorkerRole> videoProductionWorkerRoleList;
 
     public static VideoProductionWorker ofNameDescription(VideoProductionWorker videoProductionWorker) {
         return VideoProductionWorker.builder()
