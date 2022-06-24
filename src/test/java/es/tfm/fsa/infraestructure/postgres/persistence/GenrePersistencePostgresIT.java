@@ -32,7 +32,16 @@ public class GenrePersistencePostgresIT {
     @Test
     void testFindBNameAndGroupAndDescriptionNullSafe() {
         StepVerifier
-                .create(Flux.fromStream(this.genrePersistencePostgres.findByNameAndDescriptionContainingNullSafe(null, "description")))
+                .create(Mono.justOrEmpty(this.genrePersistencePostgres.create(
+                        Genre.builder().name("nameP4").description("description").build())))
+                .expectNextMatches(genre -> {
+                    assertEquals("nameP4", genre.getName());
+                    assertEquals("description", genre.getDescription());
+                    return true;
+                })
+                .verifyComplete();
+        StepVerifier
+                .create(Flux.fromStream(this.genrePersistencePostgres.findByNameAndDescriptionContainingNullSafe("nameP4", "description")))
                 .expectNextMatches(genre -> {
                     assertEquals("description", genre.getDescription());
                     return true;

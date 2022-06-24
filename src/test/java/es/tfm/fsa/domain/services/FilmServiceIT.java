@@ -42,7 +42,7 @@ public class FilmServiceIT {
         Optional<FilmSearchDto> filmSearchDto = this.filmService.findByTitleAndGenreListNullSafe("testFilmS1",null).findFirst();
         assertTrue(filmSearchDto.isPresent());
         assertThat(filmSearchDto.get().getTitle(), is("testFilmS1"));
-        assertThat(filmSearchDto.get().getGenreList().stream().collect(Collectors.toList()),
+        assertThat(filmSearchDto.get().getGenreList(),
                 is(Arrays.asList("action","adventure","sci-fi")));
     }
 }

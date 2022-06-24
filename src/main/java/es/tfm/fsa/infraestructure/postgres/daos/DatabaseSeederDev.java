@@ -1,6 +1,7 @@
 package es.tfm.fsa.infraestructure.postgres.daos;
 
 import es.tfm.fsa.domain.model.Role;
+import es.tfm.fsa.domain.model.VideoProductionWorkerRole;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.*;
 import es.tfm.fsa.infraestructure.postgres.entities.*;
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,14 +31,17 @@ public class DatabaseSeederDev {
     private RatingDao ratingDao;
     private FilmDao filmDao;
     private SeriesDao seriesDao;
+    private VideoProductionWorkerDao videoProductionWorkerDao;
     @Autowired
     public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, RatingDao ratingDao, FilmDao filmDao,
-                             SeriesDao seriesDao, DatabaseStarting databaseStarting) {
+                             SeriesDao seriesDao, VideoProductionWorkerDao videoProductionWorkerDao,
+                             DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
         this.filmDao = filmDao;
         this.seriesDao = seriesDao;
         this.ratingDao = ratingDao;
+        this.videoProductionWorkerDao = videoProductionWorkerDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -52,6 +56,7 @@ public class DatabaseSeederDev {
         this.filmDao.deleteAll();
         this.seriesDao.deleteAll();
         this.genreDao.deleteAll();
+        this.videoProductionWorkerDao.deleteAll();
         LogManager.getLogger(this.getClass()).warn("------- Deleted All -----------");
         this.databaseStarting.initialize();
     }
@@ -169,6 +174,16 @@ public class DatabaseSeederDev {
         }
         this.seriesDao.saveAll(Arrays.asList(series));
         LogManager.getLogger(this.getClass()).warn("        ------- series");
+        VideoProductionWorkerEntity[] videoProductionWorkers = new VideoProductionWorkerEntity[]{
+                VideoProductionWorkerEntity.builder().name("Test Tester").description("This is a test.").
+                        videoProductionWorkerRoleList(Arrays.asList(
+                                new VideoProductionWorkerRole[]{
+                                        VideoProductionWorkerRole.ACTOR,
+                                        VideoProductionWorkerRole.DIRECTOR
+                                })).build()
+        };
+        this.videoProductionWorkerDao.saveAll(Arrays.asList(videoProductionWorkers));
+        LogManager.getLogger(this.getClass()).warn("        ------- videoProductionWorkers");
     }
     private byte[] downloadFile(URL url) {
         try {
