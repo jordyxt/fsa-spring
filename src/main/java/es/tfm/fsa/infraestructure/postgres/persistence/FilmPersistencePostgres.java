@@ -42,15 +42,15 @@ public class FilmPersistencePostgres implements FilmPersistence {
         filmFormDto.getDirectorList().stream().
                 map(name -> {
                     if (this.videoProductionWorkerDao.findByName(name).isEmpty()) {
-                        throw new NotFoundException("Non existent genre name: " + name);
+                        throw new NotFoundException("Non existent director name: " + name);
                     }
                     return this.videoProductionWorkerDao.findByName(name).get();
                 }).
                 forEach(filmEntity::addDirector);
-        filmFormDto.getGenreList().stream().
+        filmFormDto.getActorList().stream().
                 map(name -> {
                     if (this.videoProductionWorkerDao.findByName(name).isEmpty()) {
-                        throw new NotFoundException("Non existent genre name: " + name);
+                        throw new NotFoundException("Non existent actor name: " + name);
                     }
                     return this.videoProductionWorkerDao.findByName(name).get();
                 }).
