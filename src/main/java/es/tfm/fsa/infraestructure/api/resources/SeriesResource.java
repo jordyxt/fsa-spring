@@ -33,8 +33,9 @@ public class SeriesResource {
     @GetMapping(SEARCH)
     public Stream<SeriesSearchDto> findByTitleAndGenreListNullSafe(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) List<String> genreList) {
-        return this.seriesService.findByTitleAndGenreListNullSafe(title,genreList);
+            @RequestParam(required = false) List<String> genreList,
+            @RequestParam(required = false) List<String> workerList) {
+        return this.seriesService.findByTitleAndGenreListNullSafe(title,genreList, workerList);
     }
     @PreAuthorize("permitAll()")
     @PostMapping(produces = {"application/json"})

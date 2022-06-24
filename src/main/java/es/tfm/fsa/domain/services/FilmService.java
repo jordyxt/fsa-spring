@@ -3,6 +3,7 @@ package es.tfm.fsa.domain.services;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.model.Rating;
+import es.tfm.fsa.domain.model.VideoProductionWorker;
 import es.tfm.fsa.domain.persistence.FilmPersistence;
 import es.tfm.fsa.domain.persistence.GenrePersistence;
 import es.tfm.fsa.domain.persistence.RatingPersistence;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -45,10 +47,24 @@ public class FilmService {
         });
     }
 
-    public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(String title, List<String> genres) {
+    public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(String title, List<String> genres, List<String> workers) {
         return this.filmPersistence.findByTitleNullSafe(title).filter(film ->
-                (genres == null || genres.isEmpty() || film.getGenreList().stream().map(Genre::getName).
-                        collect(Collectors.toList()).containsAll(genres))).map(FilmSearchDto::new).map(filmSearchDto -> {
+                (genres == null || genres.isEmpty() ||
+                    film.getGenreList().stream().map(Genre::getName).
+                    collect(Collectors.toList()).containsAll(genres))).
+                filter(film -> {
+                    if (workers != null && !workers.isEmpty()) {
+                        System.out.println(film.getDirectorList());
+                        List<VideoProductionWorker> workerListAux = new ArrayList<>(film.getDirectorList());
+                        workerListAux.removeAll(film.getActorList());
+                        List<VideoProductionWorker> workerList = new ArrayList<>(film.getActorList());
+                        workerList.addAll(workerListAux);
+                        return (workerList.stream().map(VideoProductionWorker::getName).
+                                        collect(Collectors.toList()).containsAll(workers));
+                    }else {
+                        return true;
+                    }
+                }).map(FilmSearchDto::new).map(filmSearchDto -> {
             filmSearchDto.setRating(this.ratingPersistence.findByVideoProductionId(filmSearchDto.getId()).
                     mapToDouble(Rating::getRating).average().orElse(0.0));
             return filmSearchDto;

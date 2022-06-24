@@ -1,10 +1,7 @@
 package es.tfm.fsa.infraestructure.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import es.tfm.fsa.domain.model.Film;
-import es.tfm.fsa.domain.model.Genre;
-import es.tfm.fsa.domain.model.VideoProduction;
-import es.tfm.fsa.domain.model.VideoProductionType;
+import es.tfm.fsa.domain.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +27,8 @@ public class VideoProductionSearchDto {
     private List<String> genreList;
     private String trailer;
     private Double rating;
+    private List<String> directorList;
+    private List<String> actorList;
     private VideoProductionType videoProductionType;
     public VideoProductionSearchDto(VideoProduction videoProduction) {
         this.id = videoProduction.getId();
@@ -39,6 +38,14 @@ public class VideoProductionSearchDto {
         if (videoProduction.getGenreList() != null) {
             this.genreList = videoProduction.getGenreList().stream()
                     .map(Genre::getName).collect(Collectors.toList());
+        }
+        if (videoProduction.getDirectorList() != null) {
+            this.directorList = videoProduction.getDirectorList().stream()
+                    .map(VideoProductionWorker::getName).collect(Collectors.toList());
+        }
+        if (videoProduction.getActorList() != null) {
+            this.actorList = videoProduction.getActorList().stream()
+                    .map(VideoProductionWorker::getName).collect(Collectors.toList());
         }
         this.trailer = videoProduction.getTrailer();
         this.videoProductionType = videoProduction.getVideoProductionType();

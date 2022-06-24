@@ -26,7 +26,7 @@ public class SeriesServiceIT {
     private SeriesService seriesService;
     @Test
     void testFindByTitleAndGenreList() {
-        this.seriesService.findByTitleAndGenreListNullSafe(null, Arrays.asList("crime"))
+        this.seriesService.findByTitleAndGenreListNullSafe(null, Arrays.asList("crime"), null)
                 .map(film -> {
                     System.out.println(film.toString());
                     assertThat(film.getTitle(), is("Money Heist"));
@@ -39,7 +39,7 @@ public class SeriesServiceIT {
         this.seriesService.create(SeriesFormDto.BBuilder().title("testSeriesS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build());
-        Optional<SeriesSearchDto> seriesSearchDto = this.seriesService.findByTitleAndGenreListNullSafe("testSeriesS1",null).findFirst();
+        Optional<SeriesSearchDto> seriesSearchDto = this.seriesService.findByTitleAndGenreListNullSafe("testSeriesS1",null, null).findFirst();
         assertTrue(seriesSearchDto.isPresent());
         assertThat(seriesSearchDto.get().getTitle(), is("testSeriesS1"));
         assertThat(seriesSearchDto.get().getGenreList().stream().collect(Collectors.toList()),

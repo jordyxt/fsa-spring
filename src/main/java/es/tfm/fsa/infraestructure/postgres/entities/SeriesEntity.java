@@ -35,8 +35,10 @@ public class SeriesEntity extends VideoProductionEntity {
     @Builder(builderMethodName = "BBuilder")
     public SeriesEntity(int id, String title, String description,
                         LocalDate releaseDate, List<GenreEntity> genreEntityList,
-                        byte[] poster, String trailer, Integer seasons, LocalDate endingDate) {
-        super(id, title, description, releaseDate, genreEntityList, poster, trailer, VideoProductionType.SERIES);
+                        byte[] poster, String trailer, List<VideoProductionWorkerEntity> directorEntityList,
+                        List<VideoProductionWorkerEntity> actorEntityList, Integer seasons, LocalDate endingDate) {
+        super(id, title, description, releaseDate, genreEntityList, poster, trailer,
+                directorEntityList, actorEntityList, VideoProductionType.SERIES);
         this.seasons = seasons;
         this.endingDate = endingDate;
     }
@@ -46,7 +48,13 @@ public class SeriesEntity extends VideoProductionEntity {
         BeanUtils.copyProperties(this, series);
         series.setGenreList(this.getGenreEntityList().stream()
                 .map(GenreEntity::toGenre)
-                .collect(Collectors.toList()));;
+                .collect(Collectors.toList()));
+        series.setDirectorList(this.getDirectorEntityList().stream()
+                .map(VideoProductionWorkerEntity::toVideoProductionWorker)
+                .collect(Collectors.toList()));
+        series.setActorList(this.getActorEntityList().stream()
+                .map(VideoProductionWorkerEntity::toVideoProductionWorker)
+                .collect(Collectors.toList()));
         return series;
     }
 }

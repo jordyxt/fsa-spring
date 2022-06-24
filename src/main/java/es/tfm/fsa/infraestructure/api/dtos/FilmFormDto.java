@@ -26,7 +26,8 @@ public class FilmFormDto extends VideoProductionFormDto {
     @Builder(builderMethodName = "BBuilder")
     public FilmFormDto(String title, String description,
                          LocalDate releaseDate, List<String> genreList,
-                         String poster,String trailer) {
-        super(title, description, releaseDate, genreList, poster, trailer, VideoProductionType.FILM);
+                         String poster,String trailer, List<String> directorList, List<String> actorList) {
+        super(title, description, releaseDate, genreList, poster, trailer,
+                directorList, actorList, VideoProductionType.FILM);
     }
 }

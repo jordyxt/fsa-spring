@@ -88,6 +88,24 @@ public class DatabaseSeederDev {
         };
         this.genreDao.saveAll(Arrays.asList(genres));
         LogManager.getLogger(this.getClass()).warn("        ------- genres");
+        VideoProductionWorkerEntity[] videoProductionWorkers = new VideoProductionWorkerEntity[]{
+                VideoProductionWorkerEntity.builder().name("Colin Trevorrow").
+                        description("Born in San Francisco and raised in Oakland.").
+                        birthdate(LocalDate.of(1976, Month.SEPTEMBER, 13)).
+                        videoProductionWorkerRoleList(Arrays.asList(
+                                VideoProductionWorkerRole.DIRECTOR,
+                                VideoProductionWorkerRole.PRODUCER,
+                                VideoProductionWorkerRole.WRITER)).build(),
+                VideoProductionWorkerEntity.builder().name("Chris Pratt").
+                        description("Christopher Michael \"Chris\" Pratt was born on June 21, 1979 in Virginia," +
+                                " Minnesota and raised in Lake Stevens, Washington.").
+                        birthdate(LocalDate.of(1979, Month.JUNE, 21)).
+                        videoProductionWorkerRoleList(Arrays.asList(
+                                VideoProductionWorkerRole.ACTOR,
+                                VideoProductionWorkerRole.PRODUCER)).build()
+        };
+        this.videoProductionWorkerDao.saveAll(Arrays.asList(videoProductionWorkers));
+        LogManager.getLogger(this.getClass()).warn("        ------- videoProductionWorkers");
         FilmEntity[] films ={};
         try {
             films = new FilmEntity[]{
@@ -99,8 +117,10 @@ public class DatabaseSeederDev {
                             poster(downloadFile(
                                     new URL("https://www.universalpictures.es/tl_files/content/movies/" +
                                             "jurassic_world_dominion/poster/01.jpg"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[2], genres[3]}))
-                            .build(),
+                            genreEntityList(Arrays.asList(genres[1], genres[2], genres[3])).
+                            directorEntityList(Arrays.asList(videoProductionWorkers[0])).
+                            actorEntityList(Arrays.asList(videoProductionWorkers[1])).
+                            build(),
                     FilmEntity.BBuilder().title("Fantastic Beasts: The Secrets of Dumbledore")
                             .description("Albus Dumbledore assigns Newt and his allies with a mission related to" +
                                     " the rising power of Grindelwald.").
@@ -108,7 +128,7 @@ public class DatabaseSeederDev {
                             poster(downloadFile(
                                     new URL("https://basededatos.atrae.org/media/works/" +
                                             "jrgifaYeUtTnaH7NF5Drkgjg2MB.jpg"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[2], genres[7]}))
+                            genreEntityList(Arrays.asList(genres[1], genres[2], genres[7]))
                             .build(),
                     FilmEntity.BBuilder().title("The Lost City")
                             .description("A reclusive romance novelist on a book tour with her cover model gets" +
@@ -118,7 +138,7 @@ public class DatabaseSeederDev {
                             poster(downloadFile(
                                     new URL("https://pics.filmaffinity.com/" +
                                             "La_ciudad_perdida-310825716-large.jpg"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[2], genres[6]}))
+                            genreEntityList(Arrays.asList(genres[1], genres[2], genres[6]))
                             .build()
             };
         } catch (MalformedURLException e) {
@@ -174,16 +194,6 @@ public class DatabaseSeederDev {
         }
         this.seriesDao.saveAll(Arrays.asList(series));
         LogManager.getLogger(this.getClass()).warn("        ------- series");
-        VideoProductionWorkerEntity[] videoProductionWorkers = new VideoProductionWorkerEntity[]{
-                VideoProductionWorkerEntity.builder().name("Test Tester").description("This is a test.").
-                        videoProductionWorkerRoleList(Arrays.asList(
-                                new VideoProductionWorkerRole[]{
-                                        VideoProductionWorkerRole.ACTOR,
-                                        VideoProductionWorkerRole.DIRECTOR
-                                })).build()
-        };
-        this.videoProductionWorkerDao.saveAll(Arrays.asList(videoProductionWorkers));
-        LogManager.getLogger(this.getClass()).warn("        ------- videoProductionWorkers");
     }
     private byte[] downloadFile(URL url) {
         try {

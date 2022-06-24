@@ -30,6 +30,8 @@ public class VideoProduction {
     private byte[] poster;
     @NotBlank
     private String trailer;
+    private List<VideoProductionWorker> directorList;
+    private List<VideoProductionWorker> actorList;
     @NotBlank
     private VideoProductionType videoProductionType;
 }

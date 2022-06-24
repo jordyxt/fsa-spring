@@ -28,12 +28,18 @@ public class VideoProductionFormDto {
     private List<String> genreList;
     private String poster;
     private String trailer;
+    private List<String> directorList;
+    private List<String> actorList;
     private VideoProductionType videoProductionType;
-
     public void doDefault() {
         if (Objects.isNull(genreList)) {
             this.genreList = new ArrayList<String>();
-
+        }
+        if (Objects.isNull(directorList)) {
+            this.directorList = new ArrayList<String>();
+        }
+        if (Objects.isNull(actorList)) {
+            this.actorList = new ArrayList<String>();
         }
     }
 }

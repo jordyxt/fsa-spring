@@ -39,8 +39,9 @@ public class FilmResource {
     @GetMapping(SEARCH)
     public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) List<String> genreList) {
-        return this.filmService.findByTitleAndGenreListNullSafe(title,genreList);
+            @RequestParam(required = false) List<String> genreList,
+            @RequestParam(required = false) List<String> workerList) {
+        return this.filmService.findByTitleAndGenreListNullSafe(title, genreList, workerList);
     }
     @PreAuthorize("permitAll()")
     @GetMapping(PICTURES+ID)

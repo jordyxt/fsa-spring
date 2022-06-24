@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "workers")
+@Table(name = "worker")
 public class VideoProductionWorkerEntity {
     @Id
     @GeneratedValue

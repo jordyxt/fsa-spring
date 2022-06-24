@@ -7,6 +7,7 @@ import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.FilmDao;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.GenreDao;
 import es.tfm.fsa.infraestructure.postgres.daos.synchronous.SeriesDao;
+import es.tfm.fsa.infraestructure.postgres.daos.synchronous.VideoProductionWorkerDao;
 import es.tfm.fsa.infraestructure.postgres.entities.FilmEntity;
 import es.tfm.fsa.infraestructure.postgres.entities.SeriesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import java.util.stream.Stream;
 public class SeriesPersistencePostgres implements SeriesPersistence {
     private SeriesDao seriesDao;
     private GenreDao genreDao;
+    private VideoProductionWorkerDao videoProductionWorkerDao;
 
     @Autowired
-    public SeriesPersistencePostgres(SeriesDao seriesDao, GenreDao genreDao) {
+    public SeriesPersistencePostgres(SeriesDao seriesDao, GenreDao genreDao, VideoProductionWorkerDao videoProductionWorkerDao) {
         this.seriesDao = seriesDao;
         this.genreDao = genreDao;
+        this.videoProductionWorkerDao = videoProductionWorkerDao;
     }
     @Override
     public Optional<Series> create(SeriesFormDto seriesFormDto) {
@@ -36,6 +39,22 @@ public class SeriesPersistencePostgres implements SeriesPersistence {
                     return this.genreDao.findByName(name).get();
                 }).
                 forEach(seriesEntity::add);
+        seriesFormDto.getDirectorList().stream().
+                map(name -> {
+                    if (this.videoProductionWorkerDao.findByName(name).isEmpty()) {
+                        throw new NotFoundException("Non existent genre name: " + name);
+                    }
+                    return this.videoProductionWorkerDao.findByName(name).get();
+                }).
+                forEach(seriesEntity::addDirector);
+        seriesFormDto.getGenreList().stream().
+                map(name -> {
+                    if (this.videoProductionWorkerDao.findByName(name).isEmpty()) {
+                        throw new NotFoundException("Non existent genre name: " + name);
+                    }
+                    return this.videoProductionWorkerDao.findByName(name).get();
+                }).
+                forEach(seriesEntity::addActor);
         return Optional.of(this.seriesDao.save(seriesEntity).toSeries());
     }
 

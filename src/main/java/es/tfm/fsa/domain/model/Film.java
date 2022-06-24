@@ -1,6 +1,7 @@
 package es.tfm.fsa.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import es.tfm.fsa.infraestructure.postgres.entities.VideoProductionWorkerEntity;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,7 +15,9 @@ public class Film extends VideoProduction {
     @Builder(builderMethodName = "BBuilder")
     public Film(int id, String title, String description,
                 LocalDate releaseDate, List<Genre> genreList,
-                byte[] poster, String trailer) {
-        super(id, title, description, releaseDate, genreList, poster, trailer, VideoProductionType.FILM);
+                byte[] poster, String trailer, List<VideoProductionWorker> directorList,
+                List<VideoProductionWorker> actorList) {
+        super(id, title, description, releaseDate, genreList, poster, trailer,
+                directorList, actorList, VideoProductionType.FILM);
     }
 }

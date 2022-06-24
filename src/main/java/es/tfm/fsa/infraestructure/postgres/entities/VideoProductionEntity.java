@@ -3,6 +3,7 @@ package es.tfm.fsa.infraestructure.postgres.entities;
 import es.tfm.fsa.domain.model.Film;
 import es.tfm.fsa.domain.model.VideoProduction;
 import es.tfm.fsa.domain.model.VideoProductionType;
+import es.tfm.fsa.domain.model.VideoProductionWorker;
 import es.tfm.fsa.infraestructure.api.dtos.VideoProductionFormDto;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
@@ -41,6 +42,20 @@ public class VideoProductionEntity {
     @Lob
     private byte[] poster;
     private String trailer;
+    @ManyToMany
+    @JoinTable(
+            name = "video_production_director",
+            joinColumns = @JoinColumn(name = "video_production_id"),
+            inverseJoinColumns = @JoinColumn(name = "worker_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<VideoProductionWorkerEntity> directorEntityList;
+    @ManyToMany
+    @JoinTable(
+            name = "video_production_actor",
+            joinColumns = @JoinColumn(name = "video_production_id"),
+            inverseJoinColumns = @JoinColumn(name = "worker_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<VideoProductionWorkerEntity> actorEntityList;
     private VideoProductionType videoProductionType;
 
     public VideoProductionEntity(VideoProduction videoProduction) {
@@ -52,17 +67,16 @@ public class VideoProductionEntity {
         this.poster = videoProductionFormDto.getPoster()!=null?
                 Base64.getDecoder().decode(videoProductionFormDto.getPoster().split(",")[1]):null;
         this.genreEntityList = new ArrayList<>();
+        this.directorEntityList = new ArrayList<>();
+        this.actorEntityList = new ArrayList<>();
     }
     public void add(GenreEntity genreEntity) {
         this.genreEntityList.add(genreEntity);
     }
-
-    public VideoProduction toVideoProduction() {
-        VideoProduction videoProduction = new VideoProduction();
-        BeanUtils.copyProperties(this, videoProduction);
-        videoProduction.setGenreList(this.getGenreEntityList().stream()
-                .map(GenreEntity::toGenre)
-                .collect(Collectors.toList()));
-        return videoProduction;
+    public void addDirector(VideoProductionWorkerEntity videoProductionWorkerEntity) {
+        this.directorEntityList.add(videoProductionWorkerEntity);
+    }
+    public void addActor(VideoProductionWorkerEntity videoProductionWorkerEntity) {
+        this.actorEntityList.add(videoProductionWorkerEntity);
     }
 }
