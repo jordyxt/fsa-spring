@@ -30,7 +30,7 @@ public class RatingServiceIT {
         this.filmService.create(FilmFormDto.BBuilder().title("testRateS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
                 genreList(Arrays.asList("action","adventure","sci-fi")).build());
-        Optional<FilmSearchDto> filmSearchDto = this.filmService.findByTitleAndGenreListNullSafe("testRateS1",null).findFirst();
+        Optional<FilmSearchDto> filmSearchDto = this.filmService.findByTitleAndGenreListNullSafe("testRateS1",null, null).findFirst();
         this.ratingService.create(RatingFormDto.builder().rating(7).username("admin").videoProductionId(filmSearchDto.get().getId()).build());
         Optional<Integer> rating = this.ratingService.read("admin",filmSearchDto.get().getId());
         assertTrue(rating.isPresent());

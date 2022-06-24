@@ -22,7 +22,9 @@ public class FilmReviewDto extends VideoProductionReviewDto {
     }
     @Builder(builderMethodName = "BBuilder")
     public FilmReviewDto(int id, String title, String description,
-                         LocalDate releaseDate, List<String> genreList, String trailer, BigDecimal rating) {
-        super(id, title, description, releaseDate, genreList, trailer, rating, VideoProductionType.FILM);
+                         LocalDate releaseDate, List<String> genreList, String trailer, BigDecimal rating,
+                         List<String> directorList, List<String> actorList) {
+        super(id, title, description, releaseDate, genreList, trailer, rating,
+                directorList, actorList, VideoProductionType.FILM);
     }
 }

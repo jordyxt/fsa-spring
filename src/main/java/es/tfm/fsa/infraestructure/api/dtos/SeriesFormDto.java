@@ -23,8 +23,10 @@ public class SeriesFormDto extends VideoProductionFormDto {
     @Builder(builderMethodName = "BBuilder")
     public SeriesFormDto(String title, String description,
                          LocalDate releaseDate, List<String> genreList,
-                         String poster,String trailer, Integer seasons, LocalDate endingDate) {
-        super(title, description, releaseDate, genreList, poster, trailer, VideoProductionType.SERIES);
+                         String poster, String trailer, List<String> directorList,
+                         List<String> actorList, Integer seasons, LocalDate endingDate) {
+        super(title, description, releaseDate, genreList, poster, trailer,
+                directorList, actorList, VideoProductionType.SERIES);
         this.seasons = seasons;
         this.endingDate = endingDate;
     }

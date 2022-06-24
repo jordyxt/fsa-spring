@@ -3,15 +3,18 @@ package es.tfm.fsa.domain.services;
 import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.model.Rating;
 import es.tfm.fsa.domain.model.Series;
+import es.tfm.fsa.domain.model.VideoProductionWorker;
 import es.tfm.fsa.domain.persistence.RatingPersistence;
 import es.tfm.fsa.domain.persistence.SeriesPersistence;
 import es.tfm.fsa.infraestructure.api.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,10 +44,23 @@ public class SeriesService {
         });
     }
 
-    public Stream<SeriesSearchDto> findByTitleAndGenreListNullSafe(String title, List<String> genres) {
-        return this.seriesPersistence.findByTitleNullSafe(title).filter(series ->
-                (genres == null || genres.isEmpty() || series.getGenreList().stream().map(Genre::getName).
-                        collect(Collectors.toList()).containsAll(genres))).map(SeriesSearchDto::new).map(seriesSearchDto -> {
+    public Stream<SeriesSearchDto> findByTitleAndGenreListNullSafe(String title, List<String> genres, List<String> workers) {
+        return this.seriesPersistence.findByTitleNullSafe(title).filter(film ->
+                (genres == null || genres.isEmpty() ||
+                        film.getGenreList().stream().map(Genre::getName).
+                                collect(Collectors.toList()).containsAll(genres))).
+                filter(series -> {
+                    if (workers != null && !workers.isEmpty()) {
+                        List<VideoProductionWorker> workerListAux = new ArrayList<>(series.getDirectorList());
+                        workerListAux.removeAll(series.getActorList());
+                        List<VideoProductionWorker> workerList = new ArrayList<>(series.getActorList());
+                        workerList.addAll(workerListAux);
+                        return (workerList.stream().map(VideoProductionWorker::getName).
+                                collect(Collectors.toList()).containsAll(workers));
+                    }else {
+                        return true;
+                    }
+                }).map(SeriesSearchDto::new).map(seriesSearchDto -> {
             seriesSearchDto.setRating(this.ratingPersistence.findByVideoProductionId(seriesSearchDto.getId()).
                     mapToDouble(Rating::getRating).average().orElse(0.0));
             return seriesSearchDto;

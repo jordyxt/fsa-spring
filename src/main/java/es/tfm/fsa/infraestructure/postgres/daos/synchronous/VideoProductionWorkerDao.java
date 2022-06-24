@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface VideoProductionWorkerDao extends JpaRepository<VideoProductionW
     @Query("select v from VideoProductionWorkerEntity v where " +
             "(?1 is null or lower(v.name) like lower(concat('%', cast( ?1 as string),'%')))")
     List<VideoProductionWorkerEntity> findByNameContainingNullSafe(String name);
+
+    Optional<VideoProductionWorkerEntity> findByName(String name);
 }

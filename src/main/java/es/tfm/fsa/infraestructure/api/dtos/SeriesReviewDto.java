@@ -28,8 +28,9 @@ public class SeriesReviewDto extends VideoProductionReviewDto {
     @Builder(builderMethodName = "BBuilder")
     public SeriesReviewDto(int id, String title, String description,
                            LocalDate releaseDate, List<String> genreList, String trailer, BigDecimal rating,
-                           Integer seasons, LocalDate endingYear) {
-        super(id, title, description, releaseDate, genreList, trailer, rating, VideoProductionType.SERIES);
+                           List<String> directorList, List<String> actorList, Integer seasons, LocalDate endingYear) {
+        super(id, title, description, releaseDate, genreList, trailer, rating,
+                directorList, actorList, VideoProductionType.SERIES);
         this.seasons = seasons;
         this.endingDate = endingYear;
     }

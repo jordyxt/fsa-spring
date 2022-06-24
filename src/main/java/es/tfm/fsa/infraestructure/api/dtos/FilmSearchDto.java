@@ -22,7 +22,9 @@ public class FilmSearchDto extends VideoProductionSearchDto {
     }
     @Builder(builderMethodName = "BBuilder")
     public FilmSearchDto(int id, String title, String description,
-                       String releaseDate, List<String> genreList, String trailer, Double rating) {
-        super(id, title, description, releaseDate, genreList, trailer, rating, VideoProductionType.FILM);
+                       String releaseDate, List<String> genreList, String trailer,
+                         List<String> directorList, List<String> actorList, Double rating) {
+        super(id, title, description, releaseDate, genreList, trailer, rating,
+                directorList, actorList, VideoProductionType.FILM);
     }
 }
