@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -22,7 +23,8 @@ public class VideoProductionWorkerEntity {
     @Column(nullable = false)
     private String name;
     private String description;
-    @ElementCollection
+    private LocalDate birthdate;
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @JoinTable(
             name = "video_production_worker_role",
