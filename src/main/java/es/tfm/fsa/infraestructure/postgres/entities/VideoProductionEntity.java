@@ -79,4 +79,10 @@ public class VideoProductionEntity {
     public void addActor(VideoProductionWorkerEntity videoProductionWorkerEntity) {
         this.actorEntityList.add(videoProductionWorkerEntity);
     }
+
+    public VideoProduction toVideoProduction() {
+        VideoProduction videoProduction = new VideoProduction();
+        BeanUtils.copyProperties(this, videoProduction);
+        return videoProduction;
+    }
 }
