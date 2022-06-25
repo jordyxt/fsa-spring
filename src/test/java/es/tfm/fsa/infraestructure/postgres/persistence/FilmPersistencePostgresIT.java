@@ -36,7 +36,9 @@ public class FilmPersistencePostgresIT {
                 .create(Mono.justOrEmpty(this.filmPersistencePostgres.create(
                         FilmFormDto.BBuilder().title("filmTitleP1").description("descriptionP").
                                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                                genreList(Arrays.asList("action","adventure","sci-fi")).build())))
+                                genreList(Arrays.asList("action","adventure","sci-fi")).
+                                directorList(Arrays.asList()).actorList(Arrays.asList())
+                        .build())))
                 .expectNextMatches(film -> {
                     assertEquals("filmTitleP1", film.getTitle());
                     assertEquals("descriptionP", film.getDescription());

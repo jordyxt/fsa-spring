@@ -27,7 +27,9 @@ public class RatingPersistencePostgresIT {
                 .create(Mono.justOrEmpty(this.filmPersistencePostgres.create(
                         FilmFormDto.BBuilder().title("rateTitleP1").description("descriptionP").
                                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                                genreList(Arrays.asList("action","adventure","sci-fi")).build())))
+                                genreList(Arrays.asList("action","adventure","sci-fi")).
+                                directorList(Arrays.asList()).actorList(Arrays.asList())
+                        .build())))
                 .expectNextMatches(film -> {
                     StepVerifier
                             .create(Mono.justOrEmpty(this.ratingPersistencePostgres.create(

@@ -15,5 +15,7 @@ public interface TopicPersistence {
 
     Optional<Topic> findById(int id);
 
+    Optional<Topic> findByTitle(String title);
+
     Stream<Topic> findByTitleNullSafe(String title);
 }

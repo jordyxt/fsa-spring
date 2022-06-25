@@ -32,9 +32,11 @@ public class DatabaseSeederDev {
     private FilmDao filmDao;
     private SeriesDao seriesDao;
     private VideoProductionWorkerDao videoProductionWorkerDao;
+    private TopicDao topicDao;
     @Autowired
     public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, RatingDao ratingDao, FilmDao filmDao,
                              SeriesDao seriesDao, VideoProductionWorkerDao videoProductionWorkerDao,
+                             TopicDao topicDao,
                              DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
@@ -42,6 +44,7 @@ public class DatabaseSeederDev {
         this.seriesDao = seriesDao;
         this.ratingDao = ratingDao;
         this.videoProductionWorkerDao = videoProductionWorkerDao;
+        this.topicDao = topicDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -57,6 +60,7 @@ public class DatabaseSeederDev {
         this.seriesDao.deleteAll();
         this.genreDao.deleteAll();
         this.videoProductionWorkerDao.deleteAll();
+        this.topicDao.deleteAll();
         LogManager.getLogger(this.getClass()).warn("------- Deleted All -----------");
         this.databaseStarting.initialize();
     }
@@ -194,6 +198,16 @@ public class DatabaseSeederDev {
         }
         this.seriesDao.saveAll(Arrays.asList(series));
         LogManager.getLogger(this.getClass()).warn("        ------- series");
+        TopicEntity[] topics = {
+                TopicEntity.builder().title("Topic Example 1").description("This is an example.").
+                        userEntity(users[1]).videoProductionEntity(films[0]).creationDate(LocalDateTime.now()).build(),
+                TopicEntity.builder().title("Topic Example 2").description("This is an example.").
+                        userEntity(users[1]).videoProductionEntity(films[1]).creationDate(LocalDateTime.now()).build(),
+                TopicEntity.builder().title("Topic Example 3").description("This is an example.").
+                        userEntity(users[1]).videoProductionEntity(films[2]).creationDate(LocalDateTime.now()).build()
+        };
+        this.topicDao.saveAll(Arrays.asList(topics));
+        LogManager.getLogger(this.getClass()).warn("        ------- topics");
     }
     private byte[] downloadFile(URL url) {
         try {

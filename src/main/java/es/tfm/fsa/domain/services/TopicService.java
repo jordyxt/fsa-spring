@@ -11,10 +11,7 @@ import es.tfm.fsa.infraestructure.api.dtos.TopicSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -29,6 +26,9 @@ public class TopicService {
     }
     public Optional<Topic> findById(int id) {
         return this.topicPersistence.findById(id);
+    }
+    public Optional<Topic> findByTitle(String title) {
+        return this.topicPersistence.findByTitle(title);
     }
     public Stream<TopicSearchDto> findByTitleSafe(String title) {
         return this.topicPersistence.findByTitleNullSafe(title).map(TopicSearchDto::new);

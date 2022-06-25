@@ -38,7 +38,9 @@ public class SeriesServiceIT {
     void testCreate() {
         this.seriesService.create(SeriesFormDto.BBuilder().title("testSeriesS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                genreList(Arrays.asList("action","adventure","sci-fi")).build());
+                genreList(Arrays.asList("action","adventure","sci-fi")).
+                directorList(Arrays.asList()).actorList(Arrays.asList())
+                .build());
         Optional<SeriesSearchDto> seriesSearchDto = this.seriesService.findByTitleAndGenreListNullSafe("testSeriesS1",null, null).findFirst();
         assertTrue(seriesSearchDto.isPresent());
         assertThat(seriesSearchDto.get().getTitle(), is("testSeriesS1"));

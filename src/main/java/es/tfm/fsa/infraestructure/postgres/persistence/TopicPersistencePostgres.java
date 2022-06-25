@@ -30,7 +30,8 @@ public class TopicPersistencePostgres implements TopicPersistence {
     @Override
     public Optional<Topic> create(TopicFormDto topicFormDto) {
         UserEntity userEntity = this.userDao.findByUsername(topicFormDto.getUsername()).get();
-        VideoProductionEntity videoProductionEntity = this.videoProductionDao.findByTitle(topicFormDto.getVideoProductionTitle()).get();
+        VideoProductionEntity videoProductionEntity = this.videoProductionDao.
+                findByTitle(topicFormDto.getVideoProductionTitle()).get();
         TopicEntity topicEntity = new TopicEntity(topicFormDto);
         topicEntity.setUserEntity(userEntity);
         topicEntity.setVideoProductionEntity(videoProductionEntity);
@@ -40,6 +41,11 @@ public class TopicPersistencePostgres implements TopicPersistence {
     @Override
     public Optional<Topic> findById(int id) {
         return this.topicDao.findById(id).map(TopicEntity::toTopic);
+    }
+
+    @Override
+    public Optional<Topic> findByTitle(String title) {
+        return this.topicDao.findByTitle(title).map(TopicEntity::toTopic);
     }
 
     @Override
