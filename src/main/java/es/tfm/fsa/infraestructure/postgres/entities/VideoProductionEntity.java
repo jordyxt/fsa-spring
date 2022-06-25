@@ -83,6 +83,15 @@ public class VideoProductionEntity {
     public VideoProduction toVideoProduction() {
         VideoProduction videoProduction = new VideoProduction();
         BeanUtils.copyProperties(this, videoProduction);
+        videoProduction.setGenreList(this.getGenreEntityList().stream()
+                .map(GenreEntity::toGenre)
+                .collect(Collectors.toList()));
+        videoProduction.setDirectorList(this.getDirectorEntityList().stream()
+                .map(VideoProductionWorkerEntity::toVideoProductionWorker)
+                .collect(Collectors.toList()));
+        videoProduction.setActorList(this.getActorEntityList().stream()
+                .map(VideoProductionWorkerEntity::toVideoProductionWorker)
+                .collect(Collectors.toList()));
         return videoProduction;
     }
 }
