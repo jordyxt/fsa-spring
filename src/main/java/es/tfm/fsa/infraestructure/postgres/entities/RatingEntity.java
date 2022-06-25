@@ -43,6 +43,7 @@ public class RatingEntity {
     public Rating toRating() {
         Rating rating = new Rating();
         rating.setRating(this.rating);
+        rating.setVideoProduction(this.getVideoProductionEntity().toVideoProduction());
         rating.setUser(this.userEntity.toUser()); 
         return rating;
     }

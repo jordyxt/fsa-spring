@@ -38,7 +38,9 @@ public class FilmServiceIT {
     void testCreate() {
         this.filmService.create(FilmFormDto.BBuilder().title("testFilmS1").description("d1").
                 releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                genreList(Arrays.asList("action","adventure","sci-fi")).build());
+                genreList(Arrays.asList("action","adventure","sci-fi")).
+                directorList(Arrays.asList()).actorList(Arrays.asList())
+                .build());
         Optional<FilmSearchDto> filmSearchDto = this.filmService.findByTitleAndGenreListNullSafe("testFilmS1",null, null).findFirst();
         assertTrue(filmSearchDto.isPresent());
         assertThat(filmSearchDto.get().getTitle(), is("testFilmS1"));
