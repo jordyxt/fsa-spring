@@ -31,6 +31,7 @@ public class TopicResource {
         this.topicService = topicService;
         this.jwtService = jwtService;
     }
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(produces = {"application/json"})
     public Optional<Topic> create(@RequestHeader("Authorization") String token, @Valid @RequestBody TopicFormDto topicFormDto) {
         String extractedToken = this.jwtService.extractBearerToken(token);
