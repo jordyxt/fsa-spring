@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,15 +24,16 @@ public class TopicServiceIT {
     private TopicService topicService;
     @Autowired
     private FilmService filmService;
+
     @Test
     void testCreate() {
         this.filmService.create(FilmFormDto.BBuilder().title("testTopicS1").description("d1").
-                releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                genreList(Arrays.asList("action","adventure","sci-fi")).
-                directorList(Arrays.asList()).actorList(Arrays.asList())
+                releaseDate(LocalDate.of(2022, Month.JANUARY, 1)).
+                genreList(Arrays.asList("action", "adventure", "sci-fi")).
+                directorList(Collections.emptyList()).actorList(Collections.emptyList())
                 .build());
         Optional<FilmSearchDto> filmSearchDto = this.filmService.
-                findByTitleAndGenreListNullSafe("testTopicS1",null, null).findFirst();
+                findByTitleAndGenreListNullSafe("testTopicS1", null, null).findFirst();
         this.topicService.create(TopicFormDto.builder().title("TopicTitle1").
                 description("description").username("admin").
                 videoProductionTitle(filmSearchDto.get().getTitle()).build());

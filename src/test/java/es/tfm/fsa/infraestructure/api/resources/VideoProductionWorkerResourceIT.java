@@ -17,6 +17,7 @@ public class VideoProductionWorkerResourceIT {
     private WebTestClient webTestClient;
     @Autowired
     private RestClientTestService restClientTestService;
+
     @Test
     void testCreate() {
         VideoProductionWorker videoProductionWorker = VideoProductionWorker.builder().name("actorRTest1").
@@ -28,28 +29,29 @@ public class VideoProductionWorkerResourceIT {
                 .expectStatus().isOk()
                 .expectBody(VideoProductionWorker.class)
                 .value(Assertions::assertNotNull)
-                .value(returnVideoProductionWorker ->{
+                .value(returnVideoProductionWorker -> {
                     System.out.println(">>>>> Test:: returnVideoProductionWorker:" + returnVideoProductionWorker);
                     assertEquals("actorRTest1", returnVideoProductionWorker.getName());
                     assertEquals("description", returnVideoProductionWorker.getDescription());
                 });
     }
+
     @Test
     void testUpdate() {
         VideoProductionWorker videoProductionWorker = VideoProductionWorker.builder().name("actorRTest2").
                 description("description").build();
         this.restClientTestService.loginAdmin(webTestClient)
                 .post()
-                .uri(WORKERS).body(Mono.just(videoProductionWorker),VideoProductionWorker.class)
+                .uri(WORKERS).body(Mono.just(videoProductionWorker), VideoProductionWorker.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(VideoProductionWorker.class)
                 .value(Assertions::assertNotNull)
-                .value(returnVideoProductionWorker ->{
+                .value(returnVideoProductionWorker -> {
                     VideoProductionWorker videoProductionWorkerUpdated = VideoProductionWorker.builder().name("actorRTest32").description("description").build();
                     this.restClientTestService.loginAdmin(webTestClient)
                             .put()
-                            .uri(WORKERS + "/"+returnVideoProductionWorker.getId())
+                            .uri(WORKERS + "/" + returnVideoProductionWorker.getId())
                             .body(Mono.just(videoProductionWorkerUpdated), VideoProductionWorker.class)
                             .exchange()
                             .expectStatus().isOk()
@@ -62,25 +64,26 @@ public class VideoProductionWorkerResourceIT {
                             });
                 });
     }
+
     @Test
     void testDelete() {
         VideoProductionWorker videoProductionWorker = VideoProductionWorker.builder().name("actorRTest3").description("description").build();
         this.restClientTestService.loginAdmin(webTestClient)
                 .post()
-                .uri(WORKERS).body(Mono.just(videoProductionWorker),VideoProductionWorker.class)
+                .uri(WORKERS).body(Mono.just(videoProductionWorker), VideoProductionWorker.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(VideoProductionWorker.class)
                 .value(Assertions::assertNotNull)
-                .value(returnVideoProductionWorker ->{
+                .value(returnVideoProductionWorker -> {
                     this.restClientTestService.loginAdmin(webTestClient)
                             .delete()
-                            .uri(WORKERS + "/"+returnVideoProductionWorker.getId())
+                            .uri(WORKERS + "/" + returnVideoProductionWorker.getId())
                             .exchange()
                             .expectStatus().isNoContent();
                     this.restClientTestService.loginAdmin(webTestClient)
                             .get()
-                            .uri(WORKERS + "/"+returnVideoProductionWorker.getId())
+                            .uri(WORKERS + "/" + returnVideoProductionWorker.getId())
                             .exchange()
                             .expectStatus().isNotFound();
                 });

@@ -21,17 +21,20 @@ import java.util.List;
 @Qualifier("fsa.users")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserPersistence userPersistence;
+    private final UserPersistence userPersistence;
+
     @Autowired
     public UserDetailsServiceImpl(UserPersistence userPersistence) {
         this.userPersistence = userPersistence;
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userPersistence.readByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username not found. " + username));
         return this.userBuilder(user.getUsername(), user.getPassword(), new Role[]{Role.AUTHENTICATED}, user.getActive());
     }
+
     private org.springframework.security.core.userdetails.User userBuilder(String username, String password, Role[] roles,
                                                                            boolean active) {
         List<GrantedAuthority> authorities = new ArrayList<>();

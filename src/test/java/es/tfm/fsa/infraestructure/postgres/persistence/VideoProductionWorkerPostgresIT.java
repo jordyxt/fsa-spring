@@ -1,9 +1,7 @@
 package es.tfm.fsa.infraestructure.postgres.persistence;
 
 import es.tfm.fsa.TestConfig;
-import es.tfm.fsa.domain.exceptions.ConflictException;
 import es.tfm.fsa.domain.exceptions.NotFoundException;
-import es.tfm.fsa.domain.model.Genre;
 import es.tfm.fsa.domain.model.VideoProductionWorker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class VideoProductionWorkerPostgresIT {
     @Autowired
     private VideoProductionWorkerPersistencePostgres videoProductionWorkerPersistencePostgres;
+
     @Test
     void testCreate() {
         StepVerifier
@@ -30,6 +29,7 @@ public class VideoProductionWorkerPostgresIT {
                 })
                 .verifyComplete();
     }
+
     @Test
     void testFindBNameAndGroupAndDescriptionNullSafe() {
         StepVerifier
@@ -50,6 +50,7 @@ public class VideoProductionWorkerPostgresIT {
                 .thenCancel()
                 .verify();
     }
+
     @Test
     void testUpdate() {
         StepVerifier
@@ -68,6 +69,7 @@ public class VideoProductionWorkerPostgresIT {
                 })
                 .verifyComplete();
     }
+
     @Test
     void testDelete() {
         StepVerifier
@@ -77,7 +79,7 @@ public class VideoProductionWorkerPostgresIT {
                     StepVerifier
                             .create(Mono.justOrEmpty(this.videoProductionWorkerPersistencePostgres.delete(videoProductionWorker.getId())))
                             .verifyComplete();
-                    assertThrows(NotFoundException.class, () ->this.videoProductionWorkerPersistencePostgres.delete(videoProductionWorker.getId()));
+                    assertThrows(NotFoundException.class, () -> this.videoProductionWorkerPersistencePostgres.delete(videoProductionWorker.getId()));
                     return true;
                 })
                 .verifyComplete();

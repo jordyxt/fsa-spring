@@ -6,11 +6,11 @@ import es.tfm.fsa.domain.model.Series;
 import es.tfm.fsa.domain.model.VideoProductionWorker;
 import es.tfm.fsa.domain.persistence.RatingPersistence;
 import es.tfm.fsa.domain.persistence.SeriesPersistence;
-import es.tfm.fsa.infraestructure.api.dtos.*;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesFormDto;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesReviewDto;
+import es.tfm.fsa.infraestructure.api.dtos.SeriesSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,15 +19,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 @Service
 public class SeriesService {
-    private SeriesPersistence seriesPersistence;
-    private RatingPersistence ratingPersistence;
+    private final SeriesPersistence seriesPersistence;
+    private final RatingPersistence ratingPersistence;
+
     @Autowired
-    public SeriesService(SeriesPersistence seriesPersistence, RatingPersistence ratingPersistence){
+    public SeriesService(SeriesPersistence seriesPersistence, RatingPersistence ratingPersistence) {
         this.seriesPersistence = seriesPersistence;
         this.ratingPersistence = ratingPersistence;
     }
+
     public Optional<Series> create(SeriesFormDto seriesFormDto) {
         return this.seriesPersistence.create(seriesFormDto);
     }
@@ -57,7 +60,7 @@ public class SeriesService {
                         workerList.addAll(workerListAux);
                         return (workerList.stream().map(VideoProductionWorker::getName).
                                 collect(Collectors.toList()).containsAll(workers));
-                    }else {
+                    } else {
                         return true;
                     }
                 }).map(SeriesSearchDto::new).map(seriesSearchDto -> {

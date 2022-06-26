@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GenrePersistencePostgresIT {
     @Autowired
     private GenrePersistencePostgres genrePersistencePostgres;
+
     @Test
     void testCreate() {
         StepVerifier
@@ -29,6 +30,7 @@ public class GenrePersistencePostgresIT {
                 })
                 .verifyComplete();
     }
+
     @Test
     void testFindBNameAndGroupAndDescriptionNullSafe() {
         StepVerifier
@@ -49,6 +51,7 @@ public class GenrePersistencePostgresIT {
                 .thenCancel()
                 .verify();
     }
+
     @Test
     void testUpdate() {
         StepVerifier
@@ -69,11 +72,13 @@ public class GenrePersistencePostgresIT {
                 })
                 .verifyComplete();
     }
+
     @Test
     void testUpdateExistingName() {
-        assertThrows(ConflictException.class, () ->this.genrePersistencePostgres.update("action",
+        assertThrows(ConflictException.class, () -> this.genrePersistencePostgres.update("action",
                 Genre.builder().name("romance").description("Romance").build()));
     }
+
     @Test
     void testReadByName() {
         StepVerifier
@@ -86,6 +91,7 @@ public class GenrePersistencePostgresIT {
                 .expectComplete()
                 .verify();
     }
+
     @Test
     void testDelete() {
         StepVerifier
@@ -100,6 +106,6 @@ public class GenrePersistencePostgresIT {
         StepVerifier
                 .create(Mono.justOrEmpty(this.genrePersistencePostgres.delete("nameP2")))
                 .verifyComplete();
-        assertThrows(NotFoundException.class, () ->this.genrePersistencePostgres.delete("nameP2"));
+        assertThrows(NotFoundException.class, () -> this.genrePersistencePostgres.delete("nameP2"));
     }
 }

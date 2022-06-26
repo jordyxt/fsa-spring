@@ -16,9 +16,9 @@ public class JwtService {
     private static final String USER_CLAIM = "user";
     private static final String ROLE_CLAIM = "role";
 
-    private String secret;
-    private String issuer;
-    private int expire;
+    private final String secret;
+    private final String issuer;
+    private final int expire;
 
     @Autowired
     public JwtService(@Value("${fsa.jwt.secret}") String secret, @Value("${fsa.jwt.issuer}") String issuer,
@@ -47,6 +47,7 @@ public class JwtService {
                 .sign(Algorithm.HMAC256(this.secret));
 
     }
+
     public String extractBearerToken(String bearer) {
         if (bearer != null && bearer.startsWith(BEARER) && 3 == bearer.split("\\.").length) {
             return bearer.substring(BEARER.length());
@@ -67,7 +68,7 @@ public class JwtService {
                 .orElse("");
     }
 
-    private Optional< DecodedJWT > verify(String token) {
+    private Optional<DecodedJWT> verify(String token) {
         try {
             return Optional.of(JWT.require(Algorithm.HMAC256(this.secret))
                     .withIssuer(this.issuer).build()

@@ -1,4 +1,5 @@
 package es.tfm.fsa.domain.exceptions;
+
 public class NotFoundException extends RuntimeException {
     private static final String DESCRIPTION = "Not Found Exception";
 
