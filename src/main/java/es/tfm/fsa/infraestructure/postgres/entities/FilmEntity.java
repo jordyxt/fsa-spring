@@ -22,10 +22,12 @@ public class FilmEntity extends VideoProductionEntity {
 
     public FilmEntity(Film film) {
         super(film);
+        this.setVideoProductionType(VideoProductionType.FILM);
     }
 
     public FilmEntity(FilmFormDto filmFormDto) {
         super(filmFormDto);
+        this.setVideoProductionType(VideoProductionType.FILM);
     }
 
     @Builder(builderMethodName = "BBuilder")

@@ -24,12 +24,14 @@ public class SeriesEntity extends VideoProductionEntity {
         super(series);
         this.seasons = series.getSeasons();
         this.endingDate = series.getEndingDate();
+        this.setVideoProductionType(VideoProductionType.SERIES);
     }
 
     public SeriesEntity(SeriesFormDto seriesFormDto) {
         super(seriesFormDto);
         this.seasons = seriesFormDto.getSeasons();
         this.endingDate = seriesFormDto.getEndingDate();
+        this.setVideoProductionType(VideoProductionType.SERIES);
     }
 
     @Builder(builderMethodName = "BBuilder")
