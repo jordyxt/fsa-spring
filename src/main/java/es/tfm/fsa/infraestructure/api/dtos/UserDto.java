@@ -31,10 +31,11 @@ public class UserDto {
     private Boolean active;
     private LocalDateTime registrationDate;
 
-    public UserDto(User user){
+    public UserDto(User user) {
         BeanUtils.copyProperties(user, this);
         this.password = "secret";
     }
+
     public void doDefault() {
         if (Objects.isNull(password)) {
             password = UUID.randomUUID().toString();
@@ -46,6 +47,7 @@ public class UserDto {
             this.active = true;
         }
     }
+
     public User toUser() {
         this.doDefault();
         this.password = new BCryptPasswordEncoder().encode(this.password);

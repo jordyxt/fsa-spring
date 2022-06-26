@@ -2,18 +2,16 @@ package es.tfm.fsa.configuration;
 
 import es.tfm.fsa.domain.model.Role;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public class JwtAuthenticationManager implements AuthenticationManager {
 
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     public JwtAuthenticationManager(JwtService jwtService) {
         this.jwtService = jwtService;

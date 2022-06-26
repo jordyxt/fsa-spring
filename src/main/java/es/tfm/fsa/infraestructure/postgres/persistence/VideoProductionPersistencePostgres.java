@@ -7,6 +7,7 @@ import es.tfm.fsa.infraestructure.postgres.entities.VideoProductionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 @Repository
 public class VideoProductionPersistencePostgres implements VideoProductionPersistence {
@@ -18,5 +19,10 @@ public class VideoProductionPersistencePostgres implements VideoProductionPersis
     @Override
     public Stream<VideoProduction> findByTitleNullSafe(String title) {
         return this.videoProductionDao.findByTitleContaining(title).stream().map(VideoProductionEntity::toVideoProduction);
+    }
+
+    @Override
+    public Optional<VideoProduction> findById(Integer id) {
+        return this.videoProductionDao.findById(id).map(VideoProductionEntity::toVideoProduction);
     }
 }

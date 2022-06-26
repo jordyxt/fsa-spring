@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -20,16 +19,18 @@ public class GenreResource {
     public static final String SEARCH = "/search";
     public static final String NAME_ID = "/{name}";
 
-    private GenreService genreService;
+    private final GenreService genreService;
 
     @Autowired
-    public GenreResource(GenreService genreService){
+    public GenreResource(GenreService genreService) {
         this.genreService = genreService;
     }
+
     @PostMapping(produces = {"application/json"})
     public Optional<Genre> create(@Valid @RequestBody Genre genre) {
         return this.genreService.create(genre);
     }
+
     @PreAuthorize("permitAll()")
     @GetMapping(SEARCH)
     public Stream<Genre> findByNameAndDescriptionContainingNullSafe(
@@ -38,6 +39,7 @@ public class GenreResource {
         return this.genreService.findByNameAndDescriptionContainingNullSafe(name, description)
                 .map(Genre::ofNameDescription);
     }
+
     @PutMapping(NAME_ID)
     public Optional<Genre> update(@PathVariable String name, @Valid @RequestBody Genre genre) {
         return this.genreService.update(name, genre);
@@ -48,6 +50,7 @@ public class GenreResource {
     public Void delete(@PathVariable String name) {
         return this.genreService.delete(name);
     }
+
     @PreAuthorize("permitAll()")
     @GetMapping(NAME_ID)
     public Optional<Genre> read(@PathVariable String name) {

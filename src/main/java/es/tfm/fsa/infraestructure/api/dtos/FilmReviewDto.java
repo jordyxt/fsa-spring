@@ -13,13 +13,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FilmReviewDto extends VideoProductionReviewDto {
     public FilmReviewDto(Film film) {
         super(film);
     }
+
     @Builder(builderMethodName = "BBuilder")
     public FilmReviewDto(int id, String title, String description,
                          LocalDate releaseDate, List<String> genreList, String trailer, BigDecimal rating,
