@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -17,6 +17,7 @@ public class Series extends VideoProduction {
     private Integer seasons;
     @NotBlank
     private LocalDate endingDate;
+
     @Builder(builderMethodName = "BBuilder")
     public Series(int id, String title, String description,
                   LocalDate releaseDate, List<Genre> genreList,

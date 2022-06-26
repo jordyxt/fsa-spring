@@ -1,9 +1,9 @@
 package es.tfm.fsa.domain.services;
 
 import es.tfm.fsa.configuration.JwtService;
-import es.tfm.fsa.domain.persistence.UserPersistence;
-import es.tfm.fsa.domain.model.User;
 import es.tfm.fsa.domain.model.Role;
+import es.tfm.fsa.domain.model.User;
+import es.tfm.fsa.domain.persistence.UserPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private UserPersistence userPersistence;
-    private JwtService jwtService;
+    private final UserPersistence userPersistence;
+    private final JwtService jwtService;
 
     @Autowired
     public UserService(UserPersistence userPersistence, JwtService jwtService) {

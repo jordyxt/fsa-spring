@@ -12,12 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SeriesPersistencePostgresIT {
     @Autowired
     private SeriesPersistencePostgres seriesPersistencePostgres;
+
     @Test
     void testFindBTitleNullSafe() {
         StepVerifier
                 .create(Flux.fromStream(this.seriesPersistencePostgres.findByTitleNullSafe("How I Met Your Mother")))
                 .expectNextMatches(series -> {
-                    assertEquals("A father recounts to his children - through a series of flashbacks - the "+
+                    assertEquals("A father recounts to his children - through a series of flashbacks - the " +
                             "journey he and his four best friends took leading up to him meeting their mother.", series.getDescription());
                     return true;
                 })

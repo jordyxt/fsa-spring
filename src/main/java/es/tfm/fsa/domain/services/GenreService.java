@@ -12,12 +12,13 @@ import java.util.stream.Stream;
 @Service
 public class GenreService {
 
-    private GenrePersistence genrePersistence;
+    private final GenrePersistence genrePersistence;
 
     @Autowired
-    public GenreService(GenrePersistence genrePersistence){
+    public GenreService(GenrePersistence genrePersistence) {
         this.genrePersistence = genrePersistence;
     }
+
     public Optional<Genre> create(Genre genre) {
         return this.genrePersistence.create(genre);
     }
@@ -29,6 +30,7 @@ public class GenreService {
     public Stream<Genre> findByNameAndDescriptionContainingNullSafe(String name, String description) {
         return this.genrePersistence.findByNameAndDescriptionContainingNullSafe(name, description);
     }
+
     public Optional<Genre> update(String name, Genre genre) {
         return this.genrePersistence.findByName(name)
                 .map(dataGenre -> {

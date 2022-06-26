@@ -1,14 +1,16 @@
 package es.tfm.fsa.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import es.tfm.fsa.infraestructure.postgres.entities.VideoProductionWorkerEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Film extends VideoProduction {

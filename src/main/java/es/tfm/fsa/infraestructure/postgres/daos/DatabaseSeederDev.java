@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service // @Profile("dev")
@@ -125,8 +126,8 @@ public class DatabaseSeederDev {
                                     new URL("https://www.universalpictures.es/tl_files/content/movies/" +
                                             "jurassic_world_dominion/poster/01.jpg"))).
                             genreEntityList(Arrays.asList(genres[1], genres[2], genres[3])).
-                            directorEntityList(Arrays.asList(videoProductionWorkers[0])).
-                            actorEntityList(Arrays.asList(videoProductionWorkers[1])).
+                            directorEntityList(Collections.singletonList(videoProductionWorkers[0])).
+                            actorEntityList(Collections.singletonList(videoProductionWorkers[1])).
                             build(),
                     FilmEntity.BBuilder().title("Fantastic Beasts: The Secrets of Dumbledore")
                             .description("Albus Dumbledore assigns Newt and his allies with a mission related to" +
@@ -172,7 +173,7 @@ public class DatabaseSeederDev {
                             poster(downloadFile(
                                     new URL("https://m.media-amazon.com/images/M/"+
                                             "MV5BNjg1MDQ5MjQ2N15BMl5BanBnXkFtZTYwNjI5NjA3._V1_FMjpg_UX1000_.jpg"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[5]}))
+                            genreEntityList(Arrays.asList(genres[6], genres[5]))
                             .build(),
                     SeriesEntity.BBuilder().title("Suits")
                             .description("On the run from a drug deal gone bad, brilliant college dropout Mike Ross "+
@@ -182,7 +183,7 @@ public class DatabaseSeederDev {
                             endingDate(LocalDate.of(2019, Month.SEPTEMBER, 25)).
                             poster(downloadFile(
                                     new URL("https://es.web.img2.acsta.net/pictures/14/03/28/10/18/433386.jpg"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[6], genres[4]}))
+                            genreEntityList(Arrays.asList(genres[6], genres[4]))
                             .build(),
                     SeriesEntity.BBuilder().title("Money Heist")
                             .description("An unusual group of robbers attempt to carry out the most perfect robbery "+
@@ -193,7 +194,7 @@ public class DatabaseSeederDev {
                             poster(downloadFile(
                                     new URL("https://static.wikia.nocookie.net/netflix/images/0/0e/"+
                                             "MH_S5_Promotional.jpg/revision/latest?cb=20210904021400"))).
-                            genreEntityList(Arrays.asList(new GenreEntity[]{genres[1], genres[8], genres[4]}))
+                            genreEntityList(Arrays.asList(genres[1], genres[8], genres[4]))
                             .build()
             };
         } catch (MalformedURLException e) {

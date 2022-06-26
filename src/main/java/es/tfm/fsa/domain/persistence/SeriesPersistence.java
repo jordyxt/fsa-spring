@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.stream.Stream;
+
 @Repository
 public interface SeriesPersistence {
     Optional<Series> create(SeriesFormDto seriesFormDto);

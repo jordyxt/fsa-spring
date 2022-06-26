@@ -1,11 +1,8 @@
 package es.tfm.fsa.infraestructure.api.resources;
 
 import es.tfm.fsa.domain.model.Film;
-import es.tfm.fsa.domain.model.Genre;
-import es.tfm.fsa.domain.model.Rating;
 import es.tfm.fsa.infraestructure.api.RestClientTestService;
 import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
-import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
 import es.tfm.fsa.infraestructure.api.dtos.RatingFormDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,10 +15,8 @@ import java.time.Month;
 import java.util.Arrays;
 
 import static es.tfm.fsa.infraestructure.api.resources.FilmResource.FILMS;
-import static es.tfm.fsa.infraestructure.api.resources.FilmResource.SEARCH;
 import static es.tfm.fsa.infraestructure.api.resources.RatingResource.RATINGS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RestTestConfig
 public class RatingResourceIT {
@@ -29,29 +24,30 @@ public class RatingResourceIT {
     private WebTestClient webTestClient;
     @Autowired
     private RestClientTestService restClientTestService;
+
     @Test
     void testCreate() {
         FilmFormDto filmFormDto = FilmFormDto.BBuilder().title("rateRTest1").description("description").
-                releaseDate(LocalDate.of(2022, Month.JANUARY,1)).
-                genreList(Arrays.asList("action","adventure","sci-fi")).build();
+                releaseDate(LocalDate.of(2022, Month.JANUARY, 1)).
+                genreList(Arrays.asList("action", "adventure", "sci-fi")).build();
         this.restClientTestService.loginAdmin(webTestClient)
                 .post()
-                .uri(FILMS).body(Mono.just(filmFormDto),FilmFormDto.class)
+                .uri(FILMS).body(Mono.just(filmFormDto), FilmFormDto.class)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Film.class)
                 .value(Assertions::assertNotNull)
-                .value(returnFilm ->{
+                .value(returnFilm -> {
                     RatingFormDto ratingFormDto = RatingFormDto.builder().rating(9).
                             videoProductionId(returnFilm.getId()).build();
                     this.restClientTestService.loginBasic(webTestClient)
                             .post()
-                            .uri(RATINGS).body(Mono.just(ratingFormDto),RatingFormDto.class)
+                            .uri(RATINGS).body(Mono.just(ratingFormDto), RatingFormDto.class)
                             .exchange()
                             .expectStatus().isOk()
                             .expectBody(Integer.class)
                             .value(Assertions::assertNotNull)
-                            .value(returnRating ->{
+                            .value(returnRating -> {
                                 System.out.println(">>>>> Test:: returnRating:" + returnRating);
                                 assertEquals(9, returnRating);
                             });

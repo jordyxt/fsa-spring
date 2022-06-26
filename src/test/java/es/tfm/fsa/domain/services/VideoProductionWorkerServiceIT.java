@@ -8,26 +8,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @TestConfig
 public class VideoProductionWorkerServiceIT {
     @Autowired
     private VideoProductionWorkerService videoProductionWorkerService;
+
     @Test
     void testCreate() {
         Optional<VideoProductionWorker> actor = this.videoProductionWorkerService.create(VideoProductionWorker.
                 builder().name("testActorS1").description("d1").
-                videoProductionWorkerRoleList(Arrays.asList(VideoProductionWorkerRole.ACTOR,VideoProductionWorkerRole.DIRECTOR)).build());
+                videoProductionWorkerRoleList(Arrays.asList(VideoProductionWorkerRole.ACTOR, VideoProductionWorkerRole.DIRECTOR)).build());
         assertTrue(actor.isPresent());
         assertThat(actor.get().getName(), is("testActorS1"));
     }
+
     @Test
     void testFindByName() {
         this.videoProductionWorkerService.create(VideoProductionWorker.
@@ -39,14 +40,15 @@ public class VideoProductionWorkerServiceIT {
                 });
 
     }
+
     @Test
     void testDelete() {
         Optional<VideoProductionWorker> actor = this.videoProductionWorkerService.
                 create(VideoProductionWorker.builder().
-                name("testActorS3").description("d3").build());
+                        name("testActorS3").description("d3").build());
         assertTrue(actor.isPresent());
         assertThat(actor.get().getName(), is("testActorS3"));
         this.videoProductionWorkerService.delete(actor.get().getId());
-        assertThrows(NotFoundException.class,()->this.videoProductionWorkerService.read(actor.get().getId()));
+        assertThrows(NotFoundException.class, () -> this.videoProductionWorkerService.read(actor.get().getId()));
     }
 }

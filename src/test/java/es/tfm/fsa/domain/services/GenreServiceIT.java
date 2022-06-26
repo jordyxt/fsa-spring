@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GenreServiceIT {
     @Autowired
     private GenreService genreService;
+
     @Test
     void testCreate() {
         this.genreService.create(Genre.builder().name("testGenreS1").description("d1").build());
@@ -24,15 +25,17 @@ public class GenreServiceIT {
         assertTrue(genre.isPresent());
         assertThat(genre.get().getName(), is("testGenreS1"));
     }
+
     @Test
     void testFindByNameAndDescription() {
-        this.genreService.findByNameAndDescriptionContainingNullSafe(null,"description")
+        this.genreService.findByNameAndDescriptionContainingNullSafe(null, "description")
                 .map(genre -> {
                     assertThat(genre.getDescription(), is("description"));
                     return true;
                 });
 
     }
+
     @Test
     void testDelete() {
         this.genreService.create(Genre.builder().name("testGenreS2").description("d2").build());
@@ -40,6 +43,6 @@ public class GenreServiceIT {
         assertTrue(genre.isPresent());
         assertThat(genre.get().getName(), is("testGenreS2"));
         this.genreService.delete("testGenreS2");
-        assertThrows(NotFoundException.class,()->this.genreService.read("testGenreS2"));
+        assertThrows(NotFoundException.class, () -> this.genreService.read("testGenreS2"));
     }
 }
