@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public interface TopicPersistence {
     Optional<Topic> create(TopicFormDto topicFormDto);
 
-    Optional<Topic> findById(int id);
+    Optional<Topic> findById(Integer id);
 
     Optional<Topic> findByTitle(String title);
 
