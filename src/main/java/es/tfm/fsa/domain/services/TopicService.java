@@ -33,4 +33,8 @@ public class TopicService {
     public Stream<TopicSearchDto> findByTitleSafe(String title) {
         return this.topicPersistence.findByTitleNullSafe(title).map(TopicSearchDto::new);
     }
+
+    public Optional<TopicSearchDto> read(Integer id) {
+        return this.topicPersistence.findById(id).map(TopicSearchDto::new);
+    }
 }

@@ -33,10 +33,11 @@ public class DatabaseSeederDev {
     private SeriesDao seriesDao;
     private VideoProductionWorkerDao videoProductionWorkerDao;
     private TopicDao topicDao;
+    private MessageDao messageDao;
     @Autowired
     public DatabaseSeederDev(UserDao userDao, GenreDao genreDao, RatingDao ratingDao, FilmDao filmDao,
                              SeriesDao seriesDao, VideoProductionWorkerDao videoProductionWorkerDao,
-                             TopicDao topicDao,
+                             TopicDao topicDao, MessageDao messageDao,
                              DatabaseStarting databaseStarting) {
         this.userDao = userDao;
         this.genreDao = genreDao;
@@ -45,6 +46,7 @@ public class DatabaseSeederDev {
         this.ratingDao = ratingDao;
         this.videoProductionWorkerDao = videoProductionWorkerDao;
         this.topicDao = topicDao;
+        this.messageDao = messageDao;
         this.databaseStarting = databaseStarting;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
@@ -61,6 +63,7 @@ public class DatabaseSeederDev {
         this.genreDao.deleteAll();
         this.videoProductionWorkerDao.deleteAll();
         this.topicDao.deleteAll();
+        this.messageDao.deleteAll();
         LogManager.getLogger(this.getClass()).warn("------- Deleted All -----------");
         this.databaseStarting.initialize();
     }
@@ -208,6 +211,16 @@ public class DatabaseSeederDev {
         };
         this.topicDao.saveAll(Arrays.asList(topics));
         LogManager.getLogger(this.getClass()).warn("        ------- topics");
+        MessageEntity[] messages = {
+                MessageEntity.builder().message("This is an example 1.").
+                        userEntity(users[1]).topicEntity(topics[0]).creationDate(LocalDateTime.now()).build(),
+                MessageEntity.builder().message("This is an example 2.").
+                        userEntity(users[1]).topicEntity(topics[0]).creationDate(LocalDateTime.now()).build(),
+                MessageEntity.builder().message("This is an example 3.").
+                        userEntity(users[1]).topicEntity(topics[0]).creationDate(LocalDateTime.now()).build()
+        };
+        this.messageDao.saveAll(Arrays.asList(messages));
+        LogManager.getLogger(this.getClass()).warn("        ------- messages");
     }
     private byte[] downloadFile(URL url) {
         try {

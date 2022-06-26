@@ -6,10 +6,7 @@ import es.tfm.fsa.domain.model.Topic;
 import es.tfm.fsa.domain.services.FilmService;
 import es.tfm.fsa.domain.services.TopicService;
 import es.tfm.fsa.infraestructure.api.Rest;
-import es.tfm.fsa.infraestructure.api.dtos.FilmFormDto;
-import es.tfm.fsa.infraestructure.api.dtos.FilmSearchDto;
-import es.tfm.fsa.infraestructure.api.dtos.TopicFormDto;
-import es.tfm.fsa.infraestructure.api.dtos.TopicSearchDto;
+import es.tfm.fsa.infraestructure.api.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +21,7 @@ import java.util.stream.Stream;
 public class TopicResource {
     public static final String TOPICS = "/topics";
     public static final String SEARCH = "/search";
+    public static final String ID = "/{id}";
 
     private TopicService topicService;
     private JwtService jwtService;
@@ -44,5 +42,10 @@ public class TopicResource {
     public Stream<TopicSearchDto> findByTitleAndGenreListNullSafe(
             @RequestParam(required = false) String title) {
         return this.topicService.findByTitleSafe(title);
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping(ID)
+    public Optional<TopicSearchDto> read(@PathVariable Integer id) {
+        return this.topicService.read(id);
     }
 }

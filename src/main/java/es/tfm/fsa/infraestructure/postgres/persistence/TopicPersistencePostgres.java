@@ -39,7 +39,7 @@ public class TopicPersistencePostgres implements TopicPersistence {
     }
 
     @Override
-    public Optional<Topic> findById(int id) {
+    public Optional<Topic> findById(Integer id) {
         return this.topicDao.findById(id).map(TopicEntity::toTopic);
     }
 
