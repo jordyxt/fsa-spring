@@ -24,17 +24,19 @@ public class FilmResource {
     public static final String PICTURES = "/pictures";
     public static final String ID = "/{id}";
 
-    private FilmService filmService;
+    private final FilmService filmService;
 
     @Autowired
-    public FilmResource(FilmService filmService){
+    public FilmResource(FilmService filmService) {
         this.filmService = filmService;
     }
+
     @PostMapping(produces = {"application/json"})
     public Optional<Film> create(@Valid @RequestBody FilmFormDto filmFormDto) {
         filmFormDto.doDefault();
         return this.filmService.create(filmFormDto);
     }
+
     @PreAuthorize("permitAll()")
     @GetMapping(SEARCH)
     public Stream<FilmSearchDto> findByTitleAndGenreListNullSafe(
@@ -43,8 +45,9 @@ public class FilmResource {
             @RequestParam(required = false) List<String> workerList) {
         return this.filmService.findByTitleAndGenreListNullSafe(title, genreList, workerList);
     }
+
     @PreAuthorize("permitAll()")
-    @GetMapping(PICTURES+ID)
+    @GetMapping(PICTURES + ID)
     public ResponseEntity<byte[]> getPicture(@PathVariable Integer id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -53,6 +56,7 @@ public class FilmResource {
         ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
         return responseEntity;
     }
+
     @PreAuthorize("permitAll()")
     @GetMapping(ID)
     public Optional<FilmReviewDto> read(@PathVariable Integer id) {

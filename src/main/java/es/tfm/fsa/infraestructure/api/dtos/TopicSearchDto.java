@@ -7,14 +7,11 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 @Data
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TopicSearchDto {
@@ -27,12 +24,13 @@ public class TopicSearchDto {
     private String creationDate;
     private String username;
     private String videoProductionTitle;
+
     public TopicSearchDto(Topic topic) {
         this.id = topic.getId();
         this.title = topic.getTitle();
         this.description = topic.getDescription();
         this.creationDate = topic.getCreationDate().
-                format(DateTimeFormatter.ofPattern("EEE, MMM dd, yyyy 'at' HH:mm",Locale.ENGLISH));
+                format(DateTimeFormatter.ofPattern("EEE, MMM dd, yyyy 'at' HH:mm", Locale.ENGLISH));
         this.username = topic.getUser().getUsername();
         this.videoProductionTitle = topic.getVideoProduction().getTitle();
     }

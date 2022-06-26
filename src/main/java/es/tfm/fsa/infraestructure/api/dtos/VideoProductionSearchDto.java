@@ -1,7 +1,10 @@
 package es.tfm.fsa.infraestructure.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import es.tfm.fsa.domain.model.*;
+import es.tfm.fsa.domain.model.Genre;
+import es.tfm.fsa.domain.model.VideoProduction;
+import es.tfm.fsa.domain.model.VideoProductionType;
+import es.tfm.fsa.domain.model.VideoProductionWorker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,11 +33,12 @@ public class VideoProductionSearchDto {
     private List<String> directorList;
     private List<String> actorList;
     private VideoProductionType videoProductionType;
+
     public VideoProductionSearchDto(VideoProduction videoProduction) {
         this.id = videoProduction.getId();
         this.title = videoProduction.getTitle();
         this.description = videoProduction.getDescription();
-        this.releaseYear = videoProduction.getReleaseDate()!=null?Integer.toString(videoProduction.getReleaseDate().getYear()):null;
+        this.releaseYear = videoProduction.getReleaseDate() != null ? Integer.toString(videoProduction.getReleaseDate().getYear()) : null;
         if (videoProduction.getGenreList() != null) {
             this.genreList = videoProduction.getGenreList().stream()
                     .map(Genre::getName).collect(Collectors.toList());

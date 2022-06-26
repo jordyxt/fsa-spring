@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,6 +68,6 @@ public class SeriesService {
             seriesSearchDto.setRating(this.ratingPersistence.findByVideoProductionId(seriesSearchDto.getId()).
                     mapToDouble(Rating::getRating).average().orElse(0.0));
             return seriesSearchDto;
-        });
+        }).sorted(Comparator.comparing(SeriesSearchDto::getRating).reversed());
     }
 }

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +32,7 @@ public class VideoProductionFormDto {
     private List<String> directorList;
     private List<String> actorList;
     private VideoProductionType videoProductionType;
+
     public void doDefault() {
         if (Objects.isNull(genreList)) {
             this.genreList = new ArrayList<String>();

@@ -23,10 +23,11 @@ public class RatingResource {
     private JwtService jwtService;
 
     @Autowired
-    public RatingResource(RatingService ratingService, JwtService jwtService){
+    public RatingResource(RatingService ratingService, JwtService jwtService) {
         this.ratingService = ratingService;
         this.jwtService = jwtService;
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping(produces = {"application/json"})
     public Optional<Integer> create(@RequestHeader("Authorization") String token, @Valid @RequestBody RatingFormDto ratingFormDto) {
@@ -34,6 +35,7 @@ public class RatingResource {
         ratingFormDto.setUsername(this.jwtService.user(extractedToken));
         return this.ratingService.create(ratingFormDto);
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping(ID)
     public Optional<Integer> read(@RequestHeader("Authorization") String token, @PathVariable Integer videoProductionId) {
