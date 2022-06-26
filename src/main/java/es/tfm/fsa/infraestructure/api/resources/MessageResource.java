@@ -32,6 +32,7 @@ public class MessageResource {
         this.messageService = messageService;
         this.jwtService = jwtService;
     }
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(produces = {"application/json"})
     public Optional<Message> create(@RequestHeader("Authorization") String token,
                                     @Valid @RequestBody MessageFormDto messageFormDto) {
