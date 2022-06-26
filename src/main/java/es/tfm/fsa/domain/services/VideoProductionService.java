@@ -56,7 +56,7 @@ public class VideoProductionService {
             videoProductionMyListSearchDto.setMyRating(this.ratingPersistence.read(username,
                     videoProductionMyListSearchDto.getId()).orElse(0));
             return videoProductionMyListSearchDto;
-        }).sorted(Comparator.comparing(VideoProductionMyListSearchDto::getRating).reversed());
+        }).sorted(Comparator.comparing(VideoProductionMyListSearchDto::getMyRating).reversed());
     }
 }
 
