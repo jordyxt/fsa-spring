@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>es.tfm</groupId>
 	<artifactId>fsa</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.2-RELEASE</version>
 	<name>fsa</name>
 	<description>TFM films and series app</description>
 	<properties>
