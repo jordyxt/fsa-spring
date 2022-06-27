@@ -8,11 +8,12 @@
 		<version>2.5.12</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>es.tfm</groupId>
+	<groupId>es.tfm.fsa</groupId>
 	<artifactId>fsa</artifactId>
 	<version>1.0.2-RELEASE</version>
 	<name>fsa</name>
 	<description>TFM films and series app</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
